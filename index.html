@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday</title>
+<style>
+  :root {
+    --void: #06070A;
+    --graphite: #121317;
+    --panel: #17191F;
+    --steel: #2A2D35;
+    --line: #33363F;
+    --blue: #3E6FA8;
+    --blue-bright: #7FB0E8;
+    --blue-glow: rgba(127,176,232,0.35);
+    --silver: #B9BFC9;
+    --ivory: #EDEFF3;
+    --red: #C4574B;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+
+  body {
+    position: relative;
+    background: var(--void);
+    background-image:
+      radial-gradient(ellipse at 50% 0%, rgba(62,111,168,0.13), transparent 55%),
+      radial-gradient(ellipse at 50% 100%, rgba(62,111,168,0.09), transparent 60%),
+      repeating-linear-gradient(115deg, rgba(255,255,255,0.014) 0px, rgba(255,255,255,0.014) 1px, transparent 1px, transparent 6px);
+    color: var(--ivory);
+    font-family: -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 18px;
+    overflow-x: hidden;
+  }
+
+  .bg-emblem {
+    position: fixed; top: 50%; left: 50%; width: 1100px; height: 1100px;
+    transform: translate(-50%, -50%); opacity: 0.035; z-index: 0; pointer-events: none;
+    animation: bgSpin 200s linear infinite;
+  }
+  @keyframes bgSpin { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+  #stage1, #stage2, #confettiLayer { position: relative; z-index: 1; }
+
+  /* =========================================================
+     STAGE 1 — WAIVER CARD
+     ========================================================= */
+
+  #stage1 {
+    width: 100%; max-width: 460px;
+    background: linear-gradient(180deg, var(--panel), #101116);
+    border: 1px solid var(--line); border-radius: 16px; padding: 34px 32px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.03);
+    transition: opacity 0.7s ease, transform 0.7s ease, filter 0.7s ease;
+    overflow: hidden;
+  }
+  #stage1.leaving { opacity: 0; transform: scale(0.96) translateY(-10px); filter: blur(6px); pointer-events: none; }
+  #stage1::after {
+    content: ""; position: absolute; top: 0; bottom: 0; left: -40%; width: 40%;
+    background: linear-gradient(90deg, transparent, rgba(127,176,232,0.16), transparent);
+    transform: skewX(-18deg); opacity: 0; pointer-events: none;
+  }
+  #stage1.starting::after { animation: headlightSweep 0.7s ease-out; }
+  @keyframes headlightSweep { 0% { left: -40%; opacity: 0; } 15% { opacity: 1; } 100% { left: 120%; opacity: 0; } }
+  #stage1.starting { animation: enginePulse 0.7s ease-out; }
+  @keyframes enginePulse { 0%, 100% { transform: scale(1); } 30% { transform: scale(1.012); } }
+
+  .card-eyebrow { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+  .eyebrow-title { display: flex; align-items: center; font-size: 13px; color: var(--silver); letter-spacing: 0.02em; }
+  .status-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--blue-bright); box-shadow: 0 0 8px var(--blue-glow); margin-right: 7px; animation: pulse 2.2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
+  .emblem-mini { width: 15px; height: 15px; margin-right: 6px; opacity: 0.85; }
+
+  .log-line { font-size: 14.5px; line-height: 1.7; color: #C9CDD5; }
+  .log-line b { color: var(--ivory); font-weight: 600; }
+  .log-line .warn { color: var(--blue-bright); }
+
+  .directive { margin-top: 18px; padding: 14px 16px; border-left: 2px solid var(--blue); background: rgba(62,111,168,0.08); border-radius: 0 8px 8px 0; font-size: 14.5px; line-height: 1.6; color: var(--ivory); }
+
+  .field-label { margin-top: 26px; margin-bottom: 10px; font-size: 12.5px; color: var(--silver); letter-spacing: 0.02em; transition: opacity 0.25s ease; }
+
+  .input-row { display: flex; align-items: center; background: var(--void); border: 1px solid var(--line); border-radius: 10px; padding: 13px 15px; transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.12s ease; }
+  .input-row:focus-within { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-glow); }
+  .input-row.bounce { animation: shake 0.42s ease; }
+  @keyframes shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-7px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(3px); } }
+
+  .prompt-glyph { color: var(--blue-bright); margin-right: 10px; font-size: 15px; }
+  #waiverInput { flex: 1; background: transparent; border: none; outline: none; color: var(--ivory); font-family: inherit; font-size: 15.5px; }
+  #waiverInput::placeholder { color: #565A64; }
+
+  .alert-msg { margin-top: 12px; font-size: 13.5px; color: var(--red); min-height: 18px; opacity: 0; transform: translateY(-3px); transition: opacity 0.25s ease, transform 0.25s ease; }
+  .alert-msg.show { opacity: 1; transform: translateY(0); }
+
+  .submit-fallback { margin-top: 16px; width: 100%; background: transparent; border: 1px solid var(--line); color: var(--silver); font-family: inherit; font-size: 13px; padding: 10px; border-radius: 8px; cursor: pointer; transition: border-color 0.2s ease, color 0.2s ease; }
+  .submit-fallback:hover { border-color: var(--blue); color: var(--ivory); }
+
+  /* =========================================================
+     STAGE 2 — DASHBOARD
+     ========================================================= */
+
+  #stage2 {
+    width: 100%; max-width: 920px; display: none; grid-template-columns: 1fr 1fr; gap: 22px;
+    align-items: start;
+    opacity: 0; transform: translateY(34px); transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  #stage2.visible { display: grid; opacity: 1; transform: translateY(0); }
+
+  .banner { grid-column: 1 / -1; text-align: center; padding: 6px 0 4px; }
+  .banner-title { font-family: Georgia, 'Times New Roman', serif; font-size: 44px; line-height: 1.15; color: var(--ivory); margin: 0; }
+  .banner-title .word { display: inline-block; opacity: 0; transform: translateY(14px); animation: wordIn 0.6s ease forwards; }
+  @keyframes wordIn { to { opacity: 1; transform: translateY(0); } }
+  .banner-sub { margin-top: 8px; font-size: 14.5px; color: var(--blue-bright); letter-spacing: 0.03em; }
+
+  .panel { position: relative; background: linear-gradient(180deg, var(--panel), #101116); border: 1px solid var(--line); border-radius: 16px; padding: 28px 26px; box-shadow: 0 20px 60px rgba(0,0,0,0.45); overflow: hidden; }
+  .panel-eyebrow { display: flex; align-items: center; font-size: 12.5px; color: var(--silver); letter-spacing: 0.02em; margin-bottom: 4px; }
+  .panel-title { font-size: 18px; font-weight: 600; color: var(--ivory); margin-bottom: 22px; }
+  .mb-watermark { position: absolute; right: -30px; top: -30px; width: 150px; height: 150px; opacity: 0.05; pointer-events: none; }
+
+  /* Combined telemetry + chronograph column */
+  .stat-row { margin-bottom: 18px; position: relative; z-index: 1; }
+  .stat-row:last-child { margin-bottom: 0; }
+  .stat-label { display: flex; justify-content: space-between; font-size: 13.5px; color: #C9CDD5; margin-bottom: 8px; }
+  .stat-value { color: var(--blue-bright); font-weight: 600; }
+  .bar-track { height: 8px; background: #0C0D10; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; }
+  .bar-fill { height: 100%; width: 0%; border-radius: 20px; background: linear-gradient(90deg, var(--blue), var(--blue-bright)); box-shadow: 0 0 10px var(--blue-glow); transition: width 1.6s cubic-bezier(.2,.7,.2,1); }
+
+  .panel-divider { border: none; border-top: 1px solid var(--line); margin: 24px 0 22px; }
+
+  .watch-block { display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .watch-face {
+    width: 186px; height: 186px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #1B1E24, #0C0D10 72%);
+    border: 6px solid #22242A;
+    box-shadow: 0 0 0 1px rgba(127,176,232,0.25), inset 0 0 22px rgba(0,0,0,0.6);
+    position: relative;
+  }
+  .watch-tick { position: absolute; top: 50%; left: 50%; width: 2px; height: 9px; background: var(--silver); opacity: 0.55; transform-origin: 50% 85px; }
+  .watch-tick.h { background: var(--blue-bright); height: 12px; opacity: 0.9; }
+
+  .watch-brand { position: absolute; top: 33%; left: 50%; transform: translate(-50%, -50%); font-size: 7px; letter-spacing: 2.5px; color: var(--blue-bright); opacity: 0.9; font-weight: 600; white-space: nowrap; }
+  .watch-emblem { position: absolute; top: 21%; left: 50%; width: 21px; height: 21px; transform: translate(-50%, -50%); }
+
+  .subdial { position: absolute; width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(127,176,232,0.3); background: rgba(0,0,0,0.35); }
+  .subdial::after { content: ""; position: absolute; top: 50%; left: 50%; width: 1.5px; height: 10px; background: var(--silver); margin-left: -0.75px; margin-top: -10px; }
+  .subdial.left { top: 50%; left: 27%; transform: translate(-50%, -50%); }
+  .subdial.left::after { transform: rotate(120deg); transform-origin: 50% 100%; }
+  .subdial.right { top: 50%; left: 73%; transform: translate(-50%, -50%); }
+  .subdial.right::after { transform: rotate(250deg); transform-origin: 50% 100%; }
+  .subdial.bottom { top: 72%; left: 50%; transform: translate(-50%, -50%); }
+  .subdial.bottom::after { transform: rotate(40deg); transform-origin: 50% 100%; }
+
+  .watch-hand { position: absolute; bottom: 50%; left: 50%; transform-origin: 50% 100%; border-radius: 3px; }
+  .watch-hand.hr { width: 3.5px; height: 44px; background: var(--ivory); margin-left: -1.75px; transform: translateX(0) rotate(305deg); }
+  .watch-hand.min { width: 2.5px; height: 64px; background: var(--ivory); margin-left: -1.25px; transform: translateX(0) rotate(55deg); }
+  .watch-hand.sec { width: 1.2px; height: 70px; background: var(--red); margin-left: -0.6px; animation: sweep 60s steps(180) infinite; }
+  @keyframes sweep { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .watch-pin { position: absolute; top: 50%; left: 50%; width: 7px; height: 7px; background: var(--blue-bright); border-radius: 50%; transform: translate(-50%, -50%); box-shadow: 0 0 8px var(--blue-glow); z-index: 3; }
+
+  .watch-caption { margin-top: 18px; font-size: 13.5px; color: #C9CDD5; line-height: 1.6; max-width: 220px; }
+
+  /* Dev console panel */
+  .terminal-window { background: #0A0B0E; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .terminal-bar { display: flex; gap: 6px; padding: 10px 14px; background: #101116; border-bottom: 1px solid var(--line); }
+  .tdot { width: 9px; height: 9px; border-radius: 50%; background: var(--steel); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04); }
+  .tdot.active { background: var(--blue-bright); box-shadow: 0 0 6px var(--blue-glow); }
+  .terminal-body { margin: 0; padding: 16px 18px 20px; font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; font-size: 12.5px; line-height: 1.85; color: #C9CDD5; }
+  .term-line { opacity: 0; transform: translateX(-6px); animation: termIn 0.45s ease forwards; white-space: pre-wrap; word-break: break-word; }
+  @keyframes termIn { to { opacity: 1; transform: translateX(0); } }
+  .t-key { color: var(--blue-bright); }
+  .t-str { color: var(--ivory); }
+  .t-mute { color: #6E7280; }
+  .t-ok { color: #8FD1A8; }
+  .cursor-blink { display: inline-block; width: 7px; height: 14px; background: var(--blue-bright); margin-left: 3px; vertical-align: -2px; animation: blink 1s step-end infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* Letter panel */
+  .letter-panel { grid-column: 1 / -1; }
+  .letter-heading { font-family: Georgia, 'Times New Roman', serif; font-size: 28px; color: var(--ivory); margin: 0 0 4px 0; }
+  .letter-heading em { font-style: italic; color: var(--blue-bright); }
+  .letter-rule { width: 44px; height: 2px; background: var(--blue); border: none; margin: 18px 0 20px; }
+  .letter-body { font-family: Georgia, 'Times New Roman', serif; font-size: 16.5px; line-height: 1.8; color: #D6D9DE; max-width: 640px; white-space: pre-line; }
+  .letter-sign { margin-top: 22px; font-family: Georgia, 'Times New Roman', serif; font-style: italic; color: var(--silver); font-size: 16px; }
+
+  /* Confetti */
+  #confettiLayer { position: fixed; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
+  .confetti-piece { position: absolute; top: -20px; opacity: 0.95; animation: confettiFall linear forwards; }
+  @keyframes confettiFall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(112vh) rotate(560deg); opacity: 0; } }
+
+  @media (max-width: 720px) {
+    #stage2 { grid-template-columns: 1fr; }
+    .banner-title { font-size: 32px; }
+    .bg-emblem { width: 700px; height: 700px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #stage1, #stage2, .bar-fill { transition: none; }
+    .watch-hand.sec, .bg-emblem { animation: none; }
+    .banner-title .word, .term-line { animation: none; opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<svg class="bg-emblem" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="46" fill="none" stroke="#7FB0E8" stroke-width="1.1"/>
+  <line x1="50" y1="50" x2="50" y2="12" stroke="#7FB0E8" stroke-width="2.2" stroke-linecap="round"/>
+  <line x1="50" y1="50" x2="82.9" y2="69" stroke="#7FB0E8" stroke-width="2.2" stroke-linecap="round"/>
+  <line x1="50" y1="50" x2="17.1" y2="69" stroke="#7FB0E8" stroke-width="2.2" stroke-linecap="round"/>
+</svg>
+
+<!-- ============ STAGE 1 ============ -->
+<div id="stage1">
+  <div class="card-eyebrow">
+    <span class="eyebrow-title"><span class="status-dot"></span>System diagnostic</span>
+    <span class="eyebrow-title">
+      <svg class="emblem-mini" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="46" fill="none" stroke="#7FB0E8" stroke-width="5"/>
+        <line x1="50" y1="50" x2="50" y2="12" stroke="#7FB0E8" stroke-width="8" stroke-linecap="round"/>
+        <line x1="50" y1="50" x2="82.9" y2="69" stroke="#7FB0E8" stroke-width="8" stroke-linecap="round"/>
+        <line x1="50" y1="50" x2="17.1" y2="69" stroke="#7FB0E8" stroke-width="8" stroke-linecap="round"/>
+      </svg>
+      Profile: Boyfriend
+    </span>
+  </div>
+
+  <div class="log-line">Scanning connected profile<span id="dots"></span></div>
+  <div class="log-line" style="margin-top:6px;">Workaholic levels: <span class="warn">99.8%</span> <b>(maximum capacity)</b></div>
+  <div class="log-line">Stubbornness index: <span class="warn">dangerously high</span></div>
+
+  <div class="directive">
+    Critical update required: you must agree to listen to your girlfriend more, and promise not to be so stubborn anymore.
+  </div>
+
+  <div class="field-label" id="fieldLabel">Type Y to accept the terms</div>
+  <div class="input-row" id="inputRow">
+    <span class="prompt-glyph">&rsaquo;</span>
+    <input type="text" id="waiverInput" autofocus autocomplete="off" placeholder="Y / Yes">
+  </div>
+  <div class="alert-msg" id="alertMsg"></div>
+
+  <button class="submit-fallback" id="submitFallback">Press enter not working? Tap here to submit</button>
+</div>
+
+<!-- ============ STAGE 2 ============ -->
+<div id="stage2">
+
+  <div class="banner">
+    <h1 class="banner-title" id="bannerTitle"></h1>
+    <div class="banner-sub">Ignition confirmed. Birthday clearance granted.</div>
+  </div>
+
+  <!-- Telemetry bars stacked directly on top of the clock, same panel -->
+  <div class="panel">
+    <svg class="mb-watermark" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="46" fill="none" stroke="#7FB0E8" stroke-width="3"/>
+      <line x1="50" y1="50" x2="50" y2="12" stroke="#7FB0E8" stroke-width="5" stroke-linecap="round"/>
+      <line x1="50" y1="50" x2="82.9" y2="69" stroke="#7FB0E8" stroke-width="5" stroke-linecap="round"/>
+      <line x1="50" y1="50" x2="17.1" y2="69" stroke="#7FB0E8" stroke-width="5" stroke-linecap="round"/>
+    </svg>
+    <div class="panel-eyebrow">
+      <svg class="emblem-mini" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="46" fill="none" stroke="#7FB0E8" stroke-width="5"/>
+        <line x1="50" y1="50" x2="50" y2="12" stroke="#7FB0E8" stroke-width="8" stroke-linecap="round"/>
+        <line x1="50" y1="50" x2="82.9" y2="69" stroke="#7FB0E8" stroke-width="8" stroke-linecap="round"/>
+        <line x1="50" y1="50" x2="17.1" y2="69" stroke="#7FB0E8" stroke-width="8" stroke-linecap="round"/>
+      </svg>
+      AMG Telemetry
+    </div>
+    <div class="panel-title">Relationship instrument cluster</div>
+
+    <div class="stat-row">
+      <div class="stat-label"><span>Fuel gauge — my love for you</span><span class="stat-value">100%</span></div>
+      <div class="bar-track"><div class="bar-fill" data-target="100"></div></div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-label"><span>Core temperature</span><span class="stat-value">Super hot 🔥</span></div>
+      <div class="bar-track"><div class="bar-fill" data-target="97"></div></div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-label"><span>McDonald's intake ratio</span><span class="stat-value">92% · critical</span></div>
+      <div class="bar-track"><div class="bar-fill" data-target="92"></div></div>
+    </div>
+
+    <hr class="panel-divider">
+
+    <div class="panel-eyebrow">Chronograph</div>
+    <div class="panel-title">Always running, never late</div>
+    <div class="watch-block">
+      <div class="watch-face" id="watchFace">
+        <svg class="watch-emblem" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="46" fill="none" stroke="#7FB0E8" stroke-width="6"/>
+          <line x1="50" y1="50" x2="50" y2="12" stroke="#7FB0E8" stroke-width="9" stroke-linecap="round"/>
+          <line x1="50" y1="50" x2="82.9" y2="69" stroke="#7FB0E8" stroke-width="9" stroke-linecap="round"/>
+          <line x1="50" y1="50" x2="17.1" y2="69" stroke="#7FB0E8" stroke-width="9" stroke-linecap="round"/>
+        </svg>
+        <div class="watch-brand">MERCEDES&#8209;AMG</div>
+        <div class="subdial left"></div>
+        <div class="subdial right"></div>
+        <div class="subdial bottom"></div>
+        <div class="watch-hand hr"></div>
+        <div class="watch-hand min"></div>
+        <div class="watch-hand sec"></div>
+        <div class="watch-pin"></div>
+      </div>
+      <div class="watch-caption">Time spent coding &lt; time spent thinking about you.</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-eyebrow">Dev Console</div>
+    <div class="panel-title">System build log</div>
+    <div class="terminal-window">
+      <div class="terminal-bar">
+        <span class="tdot"></span><span class="tdot"></span><span class="tdot active"></span>
+      </div>
+      <pre class="terminal-body" id="terminalBody"></pre>
+    </div>
+  </div>
+
+  <div class="panel letter-panel">
+    <div class="panel-eyebrow">Birthday clearance</div>
+    <h1 class="letter-heading">Happy level up day, <em>my lil genius 🎉</em></h1>
+    <hr class="letter-rule">
+    <div class="letter-body" id="letterBody">Well, I don't even know what to say... damnnn I'm so bad at this, ughhh!
+
+I just wanna say I'm so proud of you for being where you are now, because you truly are the most amazing and ambitious person I know.
+
+I want you to know that I'll be with you through every single up and down of your life.
+
+I love you so much, but I also wanna say... you should stop being so stubborn and start listening to me!!</div>
+    <div class="letter-sign">— me</div>
+  </div>
+
+</div>
+
+<div id="confettiLayer"></div>
+
+<script>
+(function () {
+  const input = document.getElementById('waiverInput');
+  const inputRow = document.getElementById('inputRow');
+  const fieldLabel = document.getElementById('fieldLabel');
+  const alertMsg = document.getElementById('alertMsg');
+  const stage1 = document.getElementById('stage1');
+  const stage2 = document.getElementById('stage2');
+  const submitFallback = document.getElementById('submitFallback');
+  const dots = document.getElementById('dots');
+  const bannerTitle = document.getElementById('bannerTitle');
+  const confettiLayer = document.getElementById('confettiLayer');
+  const terminalBody = document.getElementById('terminalBody');
+
+  let step = 1;
+
+  let dotCount = 0;
+  setInterval(() => {
+    dotCount = (dotCount + 1) % 4;
+    dots.textContent = '.'.repeat(dotCount);
+  }, 500);
+
+  function showAlert(text) {
+    alertMsg.textContent = text;
+    alertMsg.classList.add('show');
+    inputRow.classList.remove('bounce');
+    void inputRow.offsetWidth;
+    inputRow.classList.add('bounce');
+  }
+  function clearAlert() { alertMsg.classList.remove('show'); }
+
+  function handleSubmit() {
+    const raw = input.value.trim().toLowerCase();
+    const normalized = raw.replace(/\s+/g, '');
+
+    if (step === 1) {
+      if (raw === 'y' || raw === 'yes') {
+        clearAlert();
+        step = 2;
+        fieldLabel.style.opacity = 0;
+        setTimeout(() => {
+          fieldLabel.textContent = 'Enter your primary fuel core keyword (hint: 🍔🍟)';
+          fieldLabel.style.opacity = 1;
+          input.placeholder = 'Junk food';
+          input.value = '';
+          input.focus();
+        }, 200);
+      } else if (raw === '') {
+        // ignore empty submits
+      } else {
+        showAlert('Core agreement exception. Access denied. Please comply to unlock birthday clearance.');
+        input.value = '';
+      }
+      return;
+    }
+
+    if (step === 2) {
+      if (normalized.includes('junkfood')) {
+        clearAlert();
+        startIgnition();
+      } else if (raw === '') {
+        // ignore
+      } else {
+        showAlert('Fuel core not recognized. Try again — you know this one.');
+        input.value = '';
+      }
+    }
+  }
+
+  function startIgnition() {
+    stage1.classList.add('starting');
+    setTimeout(() => { stage1.classList.add('leaving'); }, 550);
+    setTimeout(() => {
+      stage1.style.display = 'none';
+      stage2.classList.add('visible');
+      animateBanner();
+      animateBars();
+      launchConfetti();
+      runTerminal();
+    }, 1250);
+  }
+
+  function animateBanner() {
+    const text = "Happy Birthday!";
+    bannerTitle.innerHTML = '';
+    text.split(' ').forEach((word, i) => {
+      const span = document.createElement('span');
+      span.className = 'word';
+      span.textContent = word + '\u00A0';
+      span.style.animationDelay = (i * 0.15) + 's';
+      bannerTitle.appendChild(span);
+    });
+  }
+
+  function animateBars() {
+    document.querySelectorAll('.bar-fill').forEach(bar => {
+      const target = bar.getAttribute('data-target');
+      requestAnimationFrame(() => { bar.style.width = target + '%'; });
+    });
+  }
+
+  function launchConfetti() {
+    const glowColors = [
+      { fill: '#9FCBFF', glow: 'rgba(159,203,255,0.9)' },
+      { fill: '#7FB0E8', glow: 'rgba(127,176,232,0.9)' },
+      { fill: '#E7ECF3', glow: 'rgba(231,236,243,0.85)' },
+      { fill: '#C9D6E8', glow: 'rgba(201,214,232,0.8)' }
+    ];
+    const count = 90;
+    for (let i = 0; i < count; i++) {
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      const c = glowColors[Math.floor(Math.random() * glowColors.length)];
+      const isDot = Math.random() > 0.55;
+      const size = isDot ? (4 + Math.random() * 4) : null;
+
+      piece.style.left = (Math.random() * 100) + 'vw';
+      piece.style.background = c.fill;
+      piece.style.boxShadow = `0 0 8px ${c.glow}, 0 0 16px ${c.glow}`;
+
+      if (isDot) {
+        piece.style.width = size + 'px';
+        piece.style.height = size + 'px';
+        piece.style.borderRadius = '50%';
+      } else {
+        piece.style.width = (4 + Math.random() * 4) + 'px';
+        piece.style.height = (10 + Math.random() * 9) + 'px';
+        piece.style.borderRadius = '2px';
+      }
+
+      const duration = 2.4 + Math.random() * 2.2;
+      piece.style.animationDuration = duration + 's';
+      piece.style.animationDelay = (Math.random() * 0.7) + 's';
+      confettiLayer.appendChild(piece);
+      setTimeout(() => piece.remove(), (duration + 1) * 1000);
+    }
+  }
+
+  function runTerminal() {
+    const lines = [
+      '<span class="t-mute">$</span> <span class="t-key">life-os</span> --build birthday',
+      '<span class="t-mute">></span> compiling 1 year of memories<span class="t-mute">...</span> <span class="t-ok">done</span>',
+      '<span class="t-mute">></span> optimizing <span class="t-key">stubbornness.js</span><span class="t-mute">...</span> <span class="t-ok">still stubborn, love it anyway</span>',
+      '<span class="t-mute">></span> linking <span class="t-key">heart.module</span><span class="t-mute">...</span> <span class="t-ok">100% match found</span>',
+      '<span class="t-mute">></span> build <span class="t-ok">succeeded ✓</span>',
+      '',
+      '<span class="t-mute">$</span> <span class="t-key">git</span> log -1',
+      '<span class="t-mute">commit</span> 8f3a21c',
+      '<span class="t-mute">Author:</span> your girlfriend <span class="t-str">&lt;3</span>',
+      '<span class="t-mute">Date:</span>   today',
+      '',
+      '    <span class="t-str">feat: another year of you, unlocked</span><span class="cursor-blink"></span>'
+    ];
+    terminalBody.innerHTML = '';
+    lines.forEach((html, i) => {
+      const div = document.createElement('div');
+      div.className = 'term-line';
+      div.innerHTML = html || '&nbsp;';
+      div.style.animationDelay = (0.15 + i * 0.16) + 's';
+      terminalBody.appendChild(div);
+    });
+  }
+
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); handleSubmit(); }
+  });
+  submitFallback.addEventListener('click', handleSubmit);
+  stage1.addEventListener('click', () => { if (stage1.style.display !== 'none') input.focus(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && document.activeElement !== input && stage1.style.display !== 'none') input.focus();
+  });
+  window.addEventListener('load', () => input.focus());
+  setTimeout(() => input.focus(), 300);
+
+  function updateClockHands() {
+    const now = new Date();
+    const m = now.getMinutes() + now.getSeconds() / 60;
+    const h = (now.getHours() % 12) + m / 60;
+    document.querySelector('.watch-hand.hr').style.transform = `rotate(${h * 30}deg)`;
+    document.querySelector('.watch-hand.min').style.transform = `rotate(${m * 6}deg)`;
+  }
+  updateClockHands();
+  setInterval(updateClockHands, 30000);
+
+  const face = document.getElementById('watchFace');
+  for (let i = 0; i < 60; i++) {
+    const t = document.createElement('div');
+    t.className = 'watch-tick' + (i % 5 === 0 ? ' h' : '');
+    t.style.transform = `rotate(${i * 6}deg)`;
+    face.insertBefore(t, face.firstChild);
+  }
+})();
+</script>
+
+</body>
+</html>
