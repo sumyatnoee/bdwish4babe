@@ -2,537 +2,439 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Birthday</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>25.10.2026 // Birthday Clearance</title>
 <style>
-  :root {
-    --void: #06070A;
-    --graphite: #121317;
-    --panel: #17191F;
-    --steel: #2A2D35;
-    --line: #33363F;
-    --blue: #3E6FA8;
-    --blue-bright: #7FB0E8;
-    --blue-glow: rgba(127,176,232,0.35);
-    --silver: #B9BFC9;
-    --ivory: #EDEFF3;
-    --red: #C4574B;
-  }
-
-  * { box-sizing: border-box; }
-  html, body { margin: 0; height: 100%; }
-
-  body {
-    position: relative;
-    background: var(--void);
-    background-image:
-      radial-gradient(ellipse at 50% 0%, rgba(62,111,168,0.13), transparent 55%),
-      radial-gradient(ellipse at 50% 100%, rgba(62,111,168,0.09), transparent 60%),
-      repeating-linear-gradient(115deg, rgba(255,255,255,0.014) 0px, rgba(255,255,255,0.014) 1px, transparent 1px, transparent 6px);
-    color: var(--ivory);
-    font-family: -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    min-height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 32px 18px;
-    overflow-x: hidden;
-  }
-
-  .bg-emblem {
-    position: fixed; top: 50%; left: 50%; width: 1100px; height: 1100px;
-    transform: translate(-50%, -50%); opacity: 0.035; z-index: 0; pointer-events: none;
-    animation: bgSpin 200s linear infinite;
-  }
-  @keyframes bgSpin { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
-
-  #stage1, #stage2, #confettiLayer { position: relative; z-index: 1; }
-
-  /* =========================================================
-     STAGE 1 — WAIVER CARD
-     ========================================================= */
-
-  #stage1 {
-    width: 100%; max-width: 460px;
-    background: linear-gradient(180deg, var(--panel), #101116);
-    border: 1px solid var(--line); border-radius: 16px; padding: 34px 32px;
-    box-shadow: 0 30px 80px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.03);
-    transition: opacity 0.7s ease, transform 0.7s ease, filter 0.7s ease;
-    overflow: hidden;
-  }
-  #stage1.leaving { opacity: 0; transform: scale(0.96) translateY(-10px); filter: blur(6px); pointer-events: none; }
-  #stage1::after {
-    content: ""; position: absolute; top: 0; bottom: 0; left: -40%; width: 40%;
-    background: linear-gradient(90deg, transparent, rgba(127,176,232,0.16), transparent);
-    transform: skewX(-18deg); opacity: 0; pointer-events: none;
-  }
-  #stage1.starting::after { animation: headlightSweep 0.7s ease-out; }
-  @keyframes headlightSweep { 0% { left: -40%; opacity: 0; } 15% { opacity: 1; } 100% { left: 120%; opacity: 0; } }
-  #stage1.starting { animation: enginePulse 0.7s ease-out; }
-  @keyframes enginePulse { 0%, 100% { transform: scale(1); } 30% { transform: scale(1.012); } }
-
-  .card-eyebrow { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
-  .eyebrow-title { display: flex; align-items: center; font-size: 13px; color: var(--silver); letter-spacing: 0.02em; }
-  .status-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--blue-bright); box-shadow: 0 0 8px var(--blue-glow); margin-right: 7px; animation: pulse 2.2s ease-in-out infinite; }
-  @keyframes pulse { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
-  .emblem-mini { width: 15px; height: 15px; margin-right: 6px; opacity: 0.85; }
-
-  .log-line { font-size: 14.5px; line-height: 1.7; color: #C9CDD5; }
-  .log-line b { color: var(--ivory); font-weight: 600; }
-  .log-line .warn { color: var(--blue-bright); }
-
-  .directive { margin-top: 18px; padding: 14px 16px; border-left: 2px solid var(--blue); background: rgba(62,111,168,0.08); border-radius: 0 8px 8px 0; font-size: 14.5px; line-height: 1.6; color: var(--ivory); }
-
-  .field-label { margin-top: 26px; margin-bottom: 10px; font-size: 12.5px; color: var(--silver); letter-spacing: 0.02em; transition: opacity 0.25s ease; }
-
-  .input-row { display: flex; align-items: center; background: var(--void); border: 1px solid var(--line); border-radius: 10px; padding: 13px 15px; transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.12s ease; }
-  .input-row:focus-within { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-glow); }
-  .input-row.bounce { animation: shake 0.42s ease; }
-  @keyframes shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-7px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(3px); } }
-
-  .prompt-glyph { color: var(--blue-bright); margin-right: 10px; font-size: 15px; }
-  #waiverInput { flex: 1; background: transparent; border: none; outline: none; color: var(--ivory); font-family: inherit; font-size: 15.5px; }
-  #waiverInput::placeholder { color: #565A64; }
-
-  .alert-msg { margin-top: 12px; font-size: 13.5px; color: var(--red); min-height: 18px; opacity: 0; transform: translateY(-3px); transition: opacity 0.25s ease, transform 0.25s ease; }
-  .alert-msg.show { opacity: 1; transform: translateY(0); }
-
-  .submit-fallback { margin-top: 16px; width: 100%; background: transparent; border: 1px solid var(--line); color: var(--silver); font-family: inherit; font-size: 13px; padding: 10px; border-radius: 8px; cursor: pointer; transition: border-color 0.2s ease, color 0.2s ease; }
-  .submit-fallback:hover { border-color: var(--blue); color: var(--ivory); }
-
-  /* =========================================================
-     STAGE 2 — DASHBOARD
-     ========================================================= */
-
-  #stage2 {
-    width: 100%; max-width: 920px; display: none; grid-template-columns: 1fr 1fr; gap: 22px;
-    align-items: start;
-    opacity: 0; transform: translateY(34px); transition: opacity 0.9s ease, transform 0.9s ease;
-  }
-  #stage2.visible { display: grid; opacity: 1; transform: translateY(0); }
-
-  .banner { grid-column: 1 / -1; text-align: center; padding: 6px 0 4px; }
-  .banner-title { font-family: Georgia, 'Times New Roman', serif; font-size: 44px; line-height: 1.15; color: var(--ivory); margin: 0; }
-  .banner-title .word { display: inline-block; opacity: 0; transform: translateY(14px); animation: wordIn 0.6s ease forwards; }
-  @keyframes wordIn { to { opacity: 1; transform: translateY(0); } }
-  .banner-sub { margin-top: 8px; font-size: 14.5px; color: var(--blue-bright); letter-spacing: 0.03em; }
-
-  .panel { position: relative; background: linear-gradient(180deg, var(--panel), #101116); border: 1px solid var(--line); border-radius: 16px; padding: 28px 26px; box-shadow: 0 20px 60px rgba(0,0,0,0.45); overflow: hidden; }
-  .panel-eyebrow { display: flex; align-items: center; font-size: 12.5px; color: var(--silver); letter-spacing: 0.02em; margin-bottom: 4px; }
-  .panel-title { font-size: 18px; font-weight: 600; color: var(--ivory); margin-bottom: 22px; }
-  .mb-watermark { position: absolute; right: -30px; top: -30px; width: 150px; height: 150px; opacity: 0.05; pointer-events: none; }
-
-  /* Combined telemetry + chronograph column */
-  .stat-row { margin-bottom: 18px; position: relative; z-index: 1; }
-  .stat-row:last-child { margin-bottom: 0; }
-  .stat-label { display: flex; justify-content: space-between; font-size: 13.5px; color: #C9CDD5; margin-bottom: 8px; }
-  .stat-value { color: var(--blue-bright); font-weight: 600; }
-  .bar-track { height: 8px; background: #0C0D10; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; }
-  .bar-fill { height: 100%; width: 0%; border-radius: 20px; background: linear-gradient(90deg, var(--blue), var(--blue-bright)); box-shadow: 0 0 10px var(--blue-glow); transition: width 1.6s cubic-bezier(.2,.7,.2,1); }
-
-  .panel-divider { border: none; border-top: 1px solid var(--line); margin: 24px 0 22px; }
-
-  .watch-block { display: flex; flex-direction: column; align-items: center; text-align: center; }
-  .watch-face {
-    width: 186px; height: 186px; border-radius: 50%;
-    background: radial-gradient(circle at 35% 30%, #1B1E24, #0C0D10 72%);
-    border: 6px solid #22242A;
-    box-shadow: 0 0 0 1px rgba(127,176,232,0.25), inset 0 0 22px rgba(0,0,0,0.6);
-    position: relative;
-  }
-  .watch-tick { position: absolute; top: 50%; left: 50%; width: 2px; height: 9px; background: var(--silver); opacity: 0.55; transform-origin: 50% 85px; }
-  .watch-tick.h { background: var(--blue-bright); height: 12px; opacity: 0.9; }
-
-  .watch-brand { position: absolute; top: 33%; left: 50%; transform: translate(-50%, -50%); font-size: 7px; letter-spacing: 2.5px; color: var(--blue-bright); opacity: 0.9; font-weight: 600; white-space: nowrap; }
-  .watch-emblem { position: absolute; top: 21%; left: 50%; width: 21px; height: 21px; transform: translate(-50%, -50%); }
-
-  .subdial { position: absolute; width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(127,176,232,0.3); background: rgba(0,0,0,0.35); }
-  .subdial::after { content: ""; position: absolute; top: 50%; left: 50%; width: 1.5px; height: 10px; background: var(--silver); margin-left: -0.75px; margin-top: -10px; }
-  .subdial.left { top: 50%; left: 27%; transform: translate(-50%, -50%); }
-  .subdial.left::after { transform: rotate(120deg); transform-origin: 50% 100%; }
-  .subdial.right { top: 50%; left: 73%; transform: translate(-50%, -50%); }
-  .subdial.right::after { transform: rotate(250deg); transform-origin: 50% 100%; }
-  .subdial.bottom { top: 72%; left: 50%; transform: translate(-50%, -50%); }
-  .subdial.bottom::after { transform: rotate(40deg); transform-origin: 50% 100%; }
-
-  .watch-hand { position: absolute; bottom: 50%; left: 50%; transform-origin: 50% 100%; border-radius: 3px; }
-  .watch-hand.hr { width: 3.5px; height: 44px; background: var(--ivory); margin-left: -1.75px; transform: translateX(0) rotate(305deg); }
-  .watch-hand.min { width: 2.5px; height: 64px; background: var(--ivory); margin-left: -1.25px; transform: translateX(0) rotate(55deg); }
-  .watch-hand.sec { width: 1.2px; height: 70px; background: var(--red); margin-left: -0.6px; animation: sweep 60s steps(180) infinite; }
-  @keyframes sweep { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-  .watch-pin { position: absolute; top: 50%; left: 50%; width: 7px; height: 7px; background: var(--blue-bright); border-radius: 50%; transform: translate(-50%, -50%); box-shadow: 0 0 8px var(--blue-glow); z-index: 3; }
-
-  .watch-caption { margin-top: 18px; font-size: 13.5px; color: #C9CDD5; line-height: 1.6; max-width: 220px; }
-
-  /* Dev console panel */
-  .terminal-window { background: #0A0B0E; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
-  .terminal-bar { display: flex; gap: 6px; padding: 10px 14px; background: #101116; border-bottom: 1px solid var(--line); }
-  .tdot { width: 9px; height: 9px; border-radius: 50%; background: var(--steel); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04); }
-  .tdot.active { background: var(--blue-bright); box-shadow: 0 0 6px var(--blue-glow); }
-  .terminal-body { margin: 0; padding: 16px 18px 20px; font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; font-size: 12.5px; line-height: 1.85; color: #C9CDD5; }
-  .term-line { opacity: 0; transform: translateX(-6px); animation: termIn 0.45s ease forwards; white-space: pre-wrap; word-break: break-word; }
-  @keyframes termIn { to { opacity: 1; transform: translateX(0); } }
-  .t-key { color: var(--blue-bright); }
-  .t-str { color: var(--ivory); }
-  .t-mute { color: #6E7280; }
-  .t-ok { color: #8FD1A8; }
-  .cursor-blink { display: inline-block; width: 7px; height: 14px; background: var(--blue-bright); margin-left: 3px; vertical-align: -2px; animation: blink 1s step-end infinite; }
-  @keyframes blink { 50% { opacity: 0; } }
-
-  /* Letter panel */
-  .letter-panel { grid-column: 1 / -1; }
-  .letter-heading { font-family: Georgia, 'Times New Roman', serif; font-size: 28px; color: var(--ivory); margin: 0 0 4px 0; }
-  .letter-heading em { font-style: italic; color: var(--blue-bright); }
-  .letter-rule { width: 44px; height: 2px; background: var(--blue); border: none; margin: 18px 0 20px; }
-  .letter-body { font-family: Georgia, 'Times New Roman', serif; font-size: 16.5px; line-height: 1.8; color: #D6D9DE; max-width: 640px; white-space: pre-line; }
-  .letter-sign { margin-top: 22px; font-family: Georgia, 'Times New Roman', serif; font-style: italic; color: var(--silver); font-size: 16px; }
-
-  /* Confetti */
-  #confettiLayer { position: fixed; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
-  .confetti-piece { position: absolute; top: -20px; opacity: 0.95; animation: confettiFall linear forwards; }
-  @keyframes confettiFall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(112vh) rotate(560deg); opacity: 0; } }
-
-  @media (max-width: 720px) {
-    #stage2 { grid-template-columns: 1fr; }
-    .banner-title { font-size: 32px; }
-    .bg-emblem { width: 700px; height: 700px; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    #stage1, #stage2, .bar-fill { transition: none; }
-    .watch-hand.sec, .bg-emblem { animation: none; }
-    .banner-title .word, .term-line { animation: none; opacity: 1; transform: none; }
-  }
+:root{
+  --void:#020305;--black:#05070a;--panel:#0b0f14;--panel2:#10151c;
+  --steel:#252c35;--line:#26313d;--blue:#1597ff;--cyan:#7ed8ff;
+  --pink:#ff3fa4;--red:#ff3158;--white:#eef7ff;--muted:#8997a6;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#020305}
+body{
+  min-height:100svh;padding:clamp(16px,4vw,38px) clamp(12px,4vw,24px);
+  padding-bottom:max(24px,env(safe-area-inset-bottom));
+  color:var(--white);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  background:
+    radial-gradient(circle at 50% -15%,rgba(0,153,255,.28),transparent 34%),
+    radial-gradient(circle at 5% 45%,rgba(0,92,255,.14),transparent 28%),
+    radial-gradient(circle at 95% 75%,rgba(0,204,255,.11),transparent 30%),
+    linear-gradient(180deg,#00050b 0%,#02070d 48%,#000205 100%);
+  background-attachment:fixed;overflow-x:hidden;
+}
+body:before,body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0}
+body:before{background:radial-gradient(circle at 50% 50%,transparent 45%,rgba(0,0,0,.72));}
+body:after{background:linear-gradient(90deg,transparent 0,rgba(21,151,255,.025) 50%,transparent 100%);animation:ambient 5s ease-in-out infinite}
+@keyframes ambient{0%,100%{opacity:.35;transform:translateX(-4%)}50%{opacity:1;transform:translateX(4%)}}
+#particles{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.particle{position:absolute;width:2px;height:2px;background:var(--cyan);border-radius:50%;box-shadow:0 0 9px var(--blue);animation:fall linear infinite;opacity:0}
+@keyframes fall{0%{transform:translateY(-20px);opacity:0}12%{opacity:.8}88%{opacity:.55}100%{transform:translateY(105vh);opacity:0}}
+#stage1,#stage2{position:relative;z-index:2}
+#stage1{
+  width:min(100%,520px);margin:7vh auto 0;padding:34px 32px;
+  background:linear-gradient(145deg,rgba(20,25,32,.96),rgba(5,8,12,.98));
+  border:1px solid #33404d;border-radius:18px;
+  box-shadow:0 35px 100px rgba(0,0,0,.72),0 0 55px rgba(21,151,255,.07),inset 0 1px rgba(255,255,255,.06);
+  transform-style:preserve-3d;transition:.75s ease;animation:cardFloat 5s ease-in-out infinite;
+}
+@keyframes cardFloat{0%,100%{transform:perspective(1000px) rotateX(0) rotateY(-.8deg) translateY(0)}50%{transform:perspective(1000px) rotateX(1deg) rotateY(.8deg) translateY(-5px)}}
+#stage1.leaving{opacity:0;transform:scale(.9) rotateX(10deg) translateY(-30px);filter:blur(12px);pointer-events:none}
+.card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
+.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.status{display:flex;align-items:center;gap:8px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 14px var(--blue);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:.35;transform:scale(.8)}50%{opacity:1;transform:scale(1.25)}}
+h2{font-size:22px;letter-spacing:.04em;margin:0 0 22px;font-weight:600}
+.log{font-family:"SFMono-Regular",Consolas,monospace;font-size:13px;line-height:1.9;color:#b8c4cf}
+.log strong{color:var(--white)}.blue{color:var(--cyan);text-shadow:0 0 10px rgba(21,151,255,.45)}
+.directive{
+ margin-top:20px;padding:17px;border:1px solid rgba(21,151,255,.28);border-left:3px solid var(--blue);
+ border-radius:10px;background:linear-gradient(90deg,rgba(21,151,255,.09),transparent);
+ line-height:1.65;font-size:14px;box-shadow:inset 0 0 25px rgba(21,151,255,.025)
+}
+.field-label{margin:25px 0 10px;font-size:12px;color:var(--muted);letter-spacing:.04em;transition:.25s}
+.input-row{display:flex;align-items:center;gap:10px;padding:13px 15px;border:1px solid #3b4651;border-radius:10px;background:#020406;transition:.2s;box-shadow:0 0 0 1px rgba(21,151,255,.04),0 0 18px rgba(21,151,255,.04)}
+.input-row:focus-within{border-color:var(--blue);box-shadow:0 0 0 3px rgba(21,151,255,.13),0 0 25px rgba(21,151,255,.14)}
+.input-row.red{border-color:var(--red);box-shadow:0 0 0 3px rgba(255,49,88,.12),0 0 30px rgba(255,49,88,.3)}
+.input-row.shake{animation:shake .5s cubic-bezier(.36,.07,.19,.97)}
+@keyframes shake{0%,100%{transform:translateX(0) rotate(0)}20%{transform:translateX(-4px) rotate(-.5deg)}40%{transform:translateX(4px) rotate(.5deg)}60%{transform:translateX(-3px) rotate(-.35deg)}80%{transform:translateX(2px) rotate(.25deg)}}
+.glyph{color:var(--cyan);font-size:18px;text-shadow:0 0 12px var(--blue)}
+#waiverInput{width:100%;background:none;border:0;outline:0;color:var(--white);font:15px "SFMono-Regular",Consolas,monospace}
+#waiverInput::placeholder{color:#48535e}
+.alert{min-height:25px;margin-top:12px;color:#63cfff;font-size:13px;line-height:1.5;opacity:0;transition:.2s}
+.alert.show{opacity:1}.alert.wild{font-size:14px;color:#6fd7ff;text-shadow:0 0 14px rgba(255,49,88,.6)}
+.fallback{width:100%;margin-top:10px;padding:10px;border:1px solid #29343f;background:transparent;color:#73808d;border-radius:8px;cursor:pointer}
+.fallback:hover{border-color:var(--blue);color:var(--white)}
+#stage2{width:min(1120px,100%);margin:2vh auto;display:none;opacity:0;transform:translateY(45px);transition:1s ease}
+#stage2.visible{display:block;opacity:1;transform:translateY(0)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.banner{grid-column:1/-1;text-align:center;padding:8px 0 18px}
+.banner h1{margin:0;font-size:clamp(32px,6vw,58px);letter-spacing:-.04em;background:linear-gradient(90deg,#eef7ff,#73d5ff,#1597ff,#eef7ff);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:titleGlow 5s linear infinite;text-shadow:0 0 30px rgba(21,151,255,.18)}
+@keyframes titleGlow{to{background-position:220% center}}
+.banner h1 span{display:inline-block;opacity:0;transform:translateY(18px);animation:rise .7s forwards}
+@keyframes rise{to{opacity:1;transform:none}}
+.sub{margin-top:10px;color:var(--cyan);font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+.panel{position:relative;overflow:hidden;padding:28px;background:linear-gradient(145deg,rgba(15,21,28,.96),rgba(5,8,12,.98));border:1px solid #2b3743;border-radius:17px;box-shadow:0 25px 70px rgba(0,0,0,.55),inset 0 1px rgba(255,255,255,.04)}
+.panel:before{content:"";position:absolute;inset:-100%;background:radial-gradient(circle,rgba(21,151,255,.08),transparent 45%);animation:glowMove 7s linear infinite;pointer-events:none}
+@keyframes glowMove{to{transform:rotate(360deg)}}
+.panel>*{position:relative}
+.kicker{font-size:10px;text-transform:uppercase;letter-spacing:.17em;color:var(--muted)}
+.title{font-size:19px;font-weight:600;margin:8px 0 24px}
+.stat{margin:0 0 21px}.stat:last-child{margin-bottom:0}
+.stat-head{display:flex;justify-content:space-between;gap:15px;font-size:13px;color:#b7c2cc;margin-bottom:9px}
+.value{color:var(--cyan);font-weight:600}
+.track{height:9px;background:#030507;border:1px solid #25303a;border-radius:99px;overflow:hidden}
+.fill{height:100%;width:0;background:linear-gradient(90deg,#0876d1,var(--cyan));box-shadow:0 0 16px rgba(21,151,255,.65);border-radius:99px;transition:width 1.8s cubic-bezier(.16,.8,.2,1)}
+.pink{background:linear-gradient(90deg,#7c2470,var(--pink));box-shadow:0 0 16px rgba(255,63,164,.6)}
+.critical{animation:critical 1s infinite}.critical .value{color:#69cfff}
+@keyframes critical{50%{filter:brightness(1.35)}}
+.watch-panel{text-align:center}
+.watch{width:245px;height:245px;margin:8px auto 18px;border-radius:50%;position:relative;background:radial-gradient(circle at 35% 28%,#1a232d,#06080b 68%);border:8px solid #202832;box-shadow:0 0 0 1px #43505c,0 0 45px rgba(21,151,255,.12),inset 0 0 35px #000}
+.tick{position:absolute;left:50%;top:50%;width:2px;height:11px;background:#94a3b2;transform-origin:50% 114px}
+.tick.big{height:17px;background:var(--cyan)}
+.watch-glow{position:absolute;inset:7px;border-radius:50%;box-shadow:inset 0 0 22px rgba(21,151,255,.2);pointer-events:none}
+.mercedes-star{position:absolute;top:19%;left:50%;width:39px;height:39px;transform:translateX(-50%);border:1px solid rgba(126,216,255,.65);border-radius:50%;box-shadow:0 0 16px rgba(21,151,255,.28),inset 0 0 10px rgba(21,151,255,.1)}
+.mercedes-star:before,.mercedes-star:after,.mercedes-star span{content:"";position:absolute;left:50%;top:50%;width:2px;height:16px;background:var(--cyan);transform-origin:50% 100%;box-shadow:0 0 7px var(--blue)}
+.mercedes-star:before{transform:translate(-50%,-100%) rotate(0deg)}
+.mercedes-star:after{transform:translate(-50%,-100%) rotate(120deg)}
+.mercedes-star span:nth-child(1){transform:translate(-50%,-100%) rotate(240deg)}
+.mercedes-star span:nth-child(2),.mercedes-star span:nth-child(3){display:none}
+.brand{position:absolute;top:39%;left:50%;transform:translateX(-50%);font-size:7px;letter-spacing:2px;color:#cfefff;white-space:nowrap}
+.crown{position:absolute;right:12%;top:46%;font-size:9px;color:var(--cyan);text-shadow:0 0 8px var(--blue)}
+.hand{position:absolute;left:50%;bottom:50%;transform-origin:50% 100%;border-radius:5px;z-index:2}
+.hour{height:55px;width:5px;background:#edf6ff;transform:translateX(-50%) rotate(315deg)}
+.minute{height:78px;width:3px;background:#edf6ff;transform:translateX(-50%) rotate(48deg)}
+.second{height:91px;width:2px;background:#ff365f;transform:translateX(-50%);animation:sweep 60s linear infinite}
+@keyframes sweep{to{transform:translateX(-50%) rotate(360deg)}}
+.pin{position:absolute;left:50%;top:50%;width:10px;height:10px;border-radius:50%;background:var(--cyan);box-shadow:0 0 14px var(--blue);transform:translate(-50%,-50%);z-index:3}
+.caption{color:#bac5ce;line-height:1.7;font-size:14px}.caption b{color:var(--white)}
+.terminal{background:#030507;border:1px solid #29343e;border-radius:10px;overflow:hidden}
+.termbar{padding:10px 13px;border-bottom:1px solid #202a34;background:#0b0f14}
+.td{display:inline-block;width:8px;height:8px;border-radius:50%;background:#33404c;margin-right:5px}.td.on{background:var(--blue);box-shadow:0 0 9px var(--blue)}
+.termbody{padding:16px;font:12px/1.9 "SFMono-Regular",Consolas,monospace;color:#aeb9c3;min-height:255px}
+.termline{opacity:0;transform:translateX(-8px);animation:term .4s forwards}.tblue{color:var(--cyan)}.tok{color:#9fe7c0}
+@keyframes term{to{opacity:1;transform:none}}
+.letter{grid-column:1/-1;text-align:center;padding:38px 10%}
+.letter h2{font-size:clamp(25px,4vw,38px);margin-bottom:5px}.rule{width:65px;height:2px;border:0;background:var(--blue);box-shadow:0 0 12px var(--blue);margin:20px auto 30px}
+.letter-body{font-family:Georgia,"Times New Roman",serif;font-size:17px;line-height:1.9;color:#d5dee6;text-align:left;white-space:pre-line;max-width:780px;margin:auto}
+.typewriter{visibility:hidden}.typewriter.ready{visibility:visible}
+.heart{display:inline-block;animation:heart 1.2s infinite}.pinkText{color:#73d5ff;text-shadow:0 0 14px rgba(21,151,255,.5)}
+@keyframes heart{50%{transform:scale(1.15)}}
+.shatter{position:fixed;inset:0;z-index:100;pointer-events:none;overflow:hidden}
+.shard{position:absolute;background:linear-gradient(135deg,rgba(230,250,255,.98),rgba(21,151,255,.08));border:1px solid rgba(126,216,255,.7);box-shadow:0 0 16px rgba(21,151,255,.35);animation:shard 1.1s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes shard{0%{transform:translate(0,0) rotate(0) scale(1);opacity:1}100%{transform:translate(var(--x),var(--y)) rotate(var(--r)) scale(.1);opacity:0}}
+@keyframes megaFall{0%{transform:translate3d(0,0,0) rotate(0);opacity:0}8%{opacity:1}100%{transform:translate3d(var(--drift),112vh,0) rotate(var(--spin));opacity:.05}}
+@media(max-width:760px){
+  body{padding-top:max(14px,env(safe-area-inset-top));}
+  #stage1{width:100%;margin:2vh auto 0;padding:24px 18px;border-radius:15px;}
+  .card-top{gap:12px;align-items:flex-start}.eyebrow{font-size:9px;letter-spacing:.11em}
+  h2{font-size:20px}.log{font-size:11.5px;line-height:1.8}.directive{font-size:13px;padding:14px}
+  .field-label{font-size:11px;line-height:1.5}.input-row{min-height:48px}
+  #waiverInput{font-size:14px;min-width:0}.fallback{font-size:11px}
+  .grid{grid-template-columns:1fr;gap:14px}.banner{padding:8px 0 12px}
+  .banner h1{font-size:clamp(29px,10vw,44px);line-height:1.08}
+  .sub{font-size:9px;letter-spacing:.1em}.panel{padding:21px 17px;border-radius:14px}
+  .title{font-size:17px;margin-bottom:20px}.stat-head{font-size:11.5px}
+  .watch{width:min(68vw,220px);height:min(68vw,220px);border-width:7px}
+  .tick{transform-origin:50% calc(min(34vw,110px) - 1px)}
+  .letter{padding:27px 18px}.letter h2{font-size:23px;line-height:1.35}
+  .letter-body{font-size:15.5px;line-height:1.75;overflow-wrap:anywhere}
+}.letter{padding:30px 8%}#stage1{margin-top:3vh}.watch{width:215px;height:215px}.tick{transform-origin:50% 99px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+@media(max-width:390px){
+  .card-top{flex-direction:column}.card-top .eyebrow:last-child{align-self:flex-end}
+  .log{font-size:10.5px}.directive{font-size:12.5px}
+  .watch{width:190px;height:190px}.letter-body{font-size:14.5px}
+}
+@media(min-width:761px){#stage2{margin-bottom:50px}}
 </style>
 </head>
 <body>
+<div id="particles"></div>
 
-<svg class="bg-emblem" viewBox="0 0 100 100">
-  <circle cx="50" cy="50" r="46" fill="none" stroke="#7FB0E8" stroke-width="1.1"/>
-  <line x1="50" y1="50" x2="50" y2="12" stroke="#7FB0E8" stroke-width="2.2" stroke-linecap="round"/>
-  <line x1="50" y1="50" x2="82.9" y2="69" stroke="#7FB0E8" stroke-width="2.2" stroke-linecap="round"/>
-  <line x1="50" y1="50" x2="17.1" y2="69" stroke="#7FB0E8" stroke-width="2.2" stroke-linecap="round"/>
-</svg>
-
-<!-- ============ STAGE 1 ============ -->
-<div id="stage1">
-  <div class="card-eyebrow">
-    <span class="eyebrow-title"><span class="status-dot"></span>System diagnostic</span>
-    <span class="eyebrow-title">
-      <svg class="emblem-mini" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="46" fill="none" stroke="#7FB0E8" stroke-width="5"/>
-        <line x1="50" y1="50" x2="50" y2="12" stroke="#7FB0E8" stroke-width="8" stroke-linecap="round"/>
-        <line x1="50" y1="50" x2="82.9" y2="69" stroke="#7FB0E8" stroke-width="8" stroke-linecap="round"/>
-        <line x1="50" y1="50" x2="17.1" y2="69" stroke="#7FB0E8" stroke-width="8" stroke-linecap="round"/>
-      </svg>
-      Profile: Boyfriend
-    </span>
+<section id="stage1">
+  <div class="card-top">
+    <div class="eyebrow status"><span class="dot"></span>SECURE SYSTEM</div>
+    <div class="eyebrow">FIREWALL // WAIVER</div>
   </div>
-
-  <div class="log-line">Scanning connected profile<span id="dots"></span></div>
-  <div class="log-line" style="margin-top:6px;">Workaholic levels: <span class="warn">99.8%</span> <b>(maximum capacity)</b></div>
-  <div class="log-line">Stubbornness index: <span class="warn">dangerously high</span></div>
-
+  <h2>System Diagnostic Log</h2>
+  <div class="log">
+    <div>USER PROFILE :: <strong>BOYFRIEND // DEV-ID: 25.10.2026</strong></div>
+    <div>Workaholic levels: <span class="blue">99.8% (Maximum Capacity)</span></div>
+    <div>Stubbornness index: <span class="blue">Dangerously high.</span></div>
+    <div>Relationship status: <span class="blue">PERMANENTLY LINKED ♾️</span></div>
+  </div>
   <div class="directive">
-    Critical update required: you must agree to listen to your girlfriend more, and promise not to be so stubborn anymore.
+    <strong>Critical Update Required:</strong> You must agree to listen to your girlfriend more and promise not to be so stubborn anymore. 😌
   </div>
-
-  <div class="field-label" id="fieldLabel">Type Y to accept the terms</div>
+  <div class="field-label" id="fieldLabel">TYPE Y / YES TO ACCEPT THE TERMS</div>
   <div class="input-row" id="inputRow">
-    <span class="prompt-glyph">&rsaquo;</span>
-    <input type="text" id="waiverInput" autofocus autocomplete="off" placeholder="Y / Yes">
+    <span class="glyph">›</span>
+    <input id="waiverInput" type="text" autocomplete="off" spellcheck="false" autofocus placeholder="Y / Yes">
   </div>
-  <div class="alert-msg" id="alertMsg"></div>
+  <div class="alert" id="alertMsg" aria-live="polite"></div>
+  <button class="fallback" id="submitFallback" type="button">ENTER NOT WORKING? TAP TO SUBMIT</button>
+</section>
 
-  <button class="submit-fallback" id="submitFallback">Press enter not working? Tap here to submit</button>
-</div>
-
-<!-- ============ STAGE 2 ============ -->
-<div id="stage2">
-
-  <div class="banner">
-    <h1 class="banner-title" id="bannerTitle"></h1>
-    <div class="banner-sub">Ignition confirmed. Birthday clearance granted.</div>
-  </div>
-
-  <!-- Telemetry bars stacked directly on top of the clock, same panel -->
-  <div class="panel">
-    <svg class="mb-watermark" viewBox="0 0 100 100">
-      <circle cx="50" cy="50" r="46" fill="none" stroke="#7FB0E8" stroke-width="3"/>
-      <line x1="50" y1="50" x2="50" y2="12" stroke="#7FB0E8" stroke-width="5" stroke-linecap="round"/>
-      <line x1="50" y1="50" x2="82.9" y2="69" stroke="#7FB0E8" stroke-width="5" stroke-linecap="round"/>
-      <line x1="50" y1="50" x2="17.1" y2="69" stroke="#7FB0E8" stroke-width="5" stroke-linecap="round"/>
-    </svg>
-    <div class="panel-eyebrow">
-      <svg class="emblem-mini" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="46" fill="none" stroke="#7FB0E8" stroke-width="5"/>
-        <line x1="50" y1="50" x2="50" y2="12" stroke="#7FB0E8" stroke-width="8" stroke-linecap="round"/>
-        <line x1="50" y1="50" x2="82.9" y2="69" stroke="#7FB0E8" stroke-width="8" stroke-linecap="round"/>
-        <line x1="50" y1="50" x2="17.1" y2="69" stroke="#7FB0E8" stroke-width="8" stroke-linecap="round"/>
-      </svg>
-      AMG Telemetry
-    </div>
-    <div class="panel-title">Relationship instrument cluster</div>
-
-    <div class="stat-row">
-      <div class="stat-label"><span>Fuel gauge — my love for you</span><span class="stat-value">100%</span></div>
-      <div class="bar-track"><div class="bar-fill" data-target="100"></div></div>
-    </div>
-    <div class="stat-row">
-      <div class="stat-label"><span>Core temperature</span><span class="stat-value">Super hot 🔥</span></div>
-      <div class="bar-track"><div class="bar-fill" data-target="97"></div></div>
-    </div>
-    <div class="stat-row">
-      <div class="stat-label"><span>McDonald's intake ratio</span><span class="stat-value">92% · critical</span></div>
-      <div class="bar-track"><div class="bar-fill" data-target="92"></div></div>
+<section id="stage2">
+  <div class="grid">
+    <div class="banner">
+      <h1 id="bannerTitle"></h1>
+      <div class="sub">Ignition confirmed // Birthday clearance granted</div>
     </div>
 
-    <hr class="panel-divider">
-
-    <div class="panel-eyebrow">Chronograph</div>
-    <div class="panel-title">Always running, never late</div>
-    <div class="watch-block">
-      <div class="watch-face" id="watchFace">
-        <svg class="watch-emblem" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="46" fill="none" stroke="#7FB0E8" stroke-width="6"/>
-          <line x1="50" y1="50" x2="50" y2="12" stroke="#7FB0E8" stroke-width="9" stroke-linecap="round"/>
-          <line x1="50" y1="50" x2="82.9" y2="69" stroke="#7FB0E8" stroke-width="9" stroke-linecap="round"/>
-          <line x1="50" y1="50" x2="17.1" y2="69" stroke="#7FB0E8" stroke-width="9" stroke-linecap="round"/>
-        </svg>
-        <div class="watch-brand">MERCEDES&#8209;AMG</div>
-        <div class="subdial left"></div>
-        <div class="subdial right"></div>
-        <div class="subdial bottom"></div>
-        <div class="watch-hand hr"></div>
-        <div class="watch-hand min"></div>
-        <div class="watch-hand sec"></div>
-        <div class="watch-pin"></div>
+    <div class="panel">
+      <div class="kicker">Mercedes Telemetry Dashboard</div>
+      <div class="title">Relationship instrument cluster</div>
+      <div class="stat">
+        <div class="stat-head"><span>Fuel Gauge — My Love for You</span><span class="value">100%</span></div>
+        <div class="track"><div class="fill" data-target="100"></div></div>
       </div>
-      <div class="watch-caption">Time spent coding &lt; time spent thinking about you.</div>
-    </div>
-  </div>
-
-  <div class="panel">
-    <div class="panel-eyebrow">Dev Console</div>
-    <div class="panel-title">System build log</div>
-    <div class="terminal-window">
-      <div class="terminal-bar">
-        <span class="tdot"></span><span class="tdot"></span><span class="tdot active"></span>
+      <div class="stat">
+        <div class="stat-head"><span>Core Temperature</span><span class="value pinkText">Super Hot 🔥</span></div>
+        <div class="track"><div class="fill pink" data-target="100"></div></div>
       </div>
-      <pre class="terminal-body" id="terminalBody"></pre>
+      <div class="stat critical">
+        <div class="stat-head"><span>Junk Food Intake Ratio</span><span class="value">95% · CRITICAL LOAD</span></div>
+        <div class="track"><div class="fill" data-target="95"></div></div>
+      </div>
+    </div>
+
+    <div class="panel watch-panel">
+      <div class="kicker">Luxury Chronograph Watch Engine</div>
+      <div class="title">Always running. Never stopping.</div>
+      <div class="watch" id="watch">
+        <div class="watch-glow"></div>
+        <div class="mercedes-star" aria-label="Mercedes-inspired star">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="brand">LUXURY CHRONOGRAPH</div>
+        <div class="crown">✦</div>
+        <div class="hand hour"></div><div class="hand minute"></div><div class="hand second"></div><div class="pin"></div>
+      </div>
+      <div class="caption"><b>Time spent coding</b> &lt; <b>Time spent thinking about you.</b><br><span class="blue">Mercedes soul × luxury-watch precision.</span></div>
+    </div>
+
+    <div class="panel">
+      <div class="kicker">Developer Console</div>
+      <div class="title">System build log</div>
+      <div class="terminal">
+        <div class="termbar"><span class="td"></span><span class="td"></span><span class="td on"></span></div>
+        <div class="termbody" id="terminalBody"></div>
+      </div>
+    </div>
+
+    <div class="panel letter">
+      <div class="kicker">Birthday Clearance</div>
+      <h2>✨ LEVEL UP DAY: <span class="pinkText">25 OCT 2026</span> ✨</h2>
+      <hr class="rule">
+      <div id="letterBody" class="letter-body typewriter">
+Ahhhhhh I literally don’t even know what to say because I’m SO bad at thissss 😭 but here I goooo…
+
+Happy Level Up Day to my favorite lil genius!!! 🎂 Another year smarter, hotter… and somehow still my favorite pain in the ass 😌
+
+I just really want you to know how incredibly proud I am of you and everything you’re doing. You’re doing AMAZING, babe, even on the days when you don’t realize it yourself. 🫶🏻
+
+And no matter what life throws at us—good days, bad days, crazy days, or those “what the actual hell is happening” days 😂—I’ll be right here beside you through ALL of it. ♾️❤️
+
+I hope this new chapter brings you everything you deserve, because my baby better be out here winningggg 🏆✨ And just so you know… I’m gonna be annoying you, supporting you, hyping you up, and loving you through every single level. 💕
+
+I love you SO freaking much. 💙♾️
+Now go enjoy your day, birthday boy… you’re officially another level hotter. 😏🔥
+      </div>
     </div>
   </div>
-
-  <div class="panel letter-panel">
-    <div class="panel-eyebrow">Birthday clearance</div>
-    <h1 class="letter-heading">Happy level up day, <em>my lil genius 🎉</em></h1>
-    <hr class="letter-rule">
-    <div class="letter-body" id="letterBody">Well, I don't even know what to say... damnnn I'm so bad at this, ughhh!
-
-I just wanna say I'm so proud of you for being where you are now, because you truly are the most amazing and ambitious person I know.
-
-I want you to know that I'll be with you through every single up and down of your life.
-
-I love you so much, but I also wanna say... you should stop being so stubborn and start listening to me!!</div>
-    <div class="letter-sign">— me</div>
-  </div>
-
-</div>
-
-<div id="confettiLayer"></div>
+</section>
 
 <script>
-(function () {
-  const input = document.getElementById('waiverInput');
-  const inputRow = document.getElementById('inputRow');
-  const fieldLabel = document.getElementById('fieldLabel');
-  const alertMsg = document.getElementById('alertMsg');
-  const stage1 = document.getElementById('stage1');
-  const stage2 = document.getElementById('stage2');
-  const submitFallback = document.getElementById('submitFallback');
-  const dots = document.getElementById('dots');
-  const bannerTitle = document.getElementById('bannerTitle');
-  const confettiLayer = document.getElementById('confettiLayer');
-  const terminalBody = document.getElementById('terminalBody');
+(function(){
+"use strict";
 
-  let step = 1;
+const $ = id => document.getElementById(id);
+const input=$("waiverInput"), row=$("inputRow"), label=$("fieldLabel"), alertBox=$("alertMsg");
+const stage1=$("stage1"), stage2=$("stage2"), fallback=$("submitFallback");
 
-  let dotCount = 0;
-  setInterval(() => {
-    dotCount = (dotCount + 1) % 4;
-    dots.textContent = '.'.repeat(dotCount);
-  }, 500);
+let step=1, busy=false;
 
-  function showAlert(text) {
-    alertMsg.textContent = text;
-    alertMsg.classList.add('show');
-    inputRow.classList.remove('bounce');
-    void inputRow.offsetWidth;
-    inputRow.classList.add('bounce');
-  }
-  function clearAlert() { alertMsg.classList.remove('show'); }
+/* Ambient matrix particles */
+const particles=$("particles");
+for(let i=0;i<75;i++){
+  const p=document.createElement("span"); p.className="particle";
+  p.style.left=(Math.random()*100)+"vw";
+  p.style.animationDuration=(3+Math.random()*6)+"s";
+  p.style.animationDelay=(-Math.random()*8)+"s";
+  p.style.opacity=(.2+Math.random()*.6);
+  particles.appendChild(p);
+}
 
-  function handleSubmit() {
-    const raw = input.value.trim().toLowerCase();
-    const normalized = raw.replace(/\s+/g, '');
-
-    if (step === 1) {
-      if (raw === 'y' || raw === 'yes') {
-        clearAlert();
-        step = 2;
-        fieldLabel.style.opacity = 0;
-        setTimeout(() => {
-          fieldLabel.textContent = 'Enter your primary fuel core keyword (hint: 🍔🍟)';
-          fieldLabel.style.opacity = 1;
-          input.placeholder = 'Junk food';
-          input.value = '';
-          input.focus();
-        }, 200);
-      } else if (raw === '') {
-        // ignore empty submits
-      } else {
-        showAlert('Core agreement exception. Access denied. Please comply to unlock birthday clearance.');
-        input.value = '';
-      }
+function focusSafely(){
+  try{
+    if(step<3 && input && document.activeElement!==input) input.focus({preventScroll:true});
+  }catch(_){ try{input.focus()}catch(__){} }
+}
+function clearAlert(){
+  alertBox.classList.remove("show","wild"); alertBox.textContent="";
+}
+function showNoMessage(){
+  alertBox.textContent="I knew you were going to say no, how dare you! Type yes or else I will kick your lil ass! 😤🥊";
+  alertBox.classList.add("show","wild");
+  row.classList.remove("shake","red"); void row.offsetWidth;
+  row.classList.add("shake","red");
+}
+function acceptYes(){
+  clearAlert(); step=2;
+  label.style.opacity="0";
+  setTimeout(()=>{
+    label.textContent="System requires fuel validation. Enter ANY food keyword to override firewall (Hint: 🍔🍟🍕):";
+    label.style.opacity="1"; input.placeholder="ANY FOOD KEYWORD"; input.value=""; focusSafely();
+  },220);
+}
+function handleSubmit(){
+  if(busy || step===3) return;
+  try{
+    const raw=input.value.trim(), lower=raw.toLowerCase();
+    if(step===1){
+      if(lower==="y" || lower==="yes"){ acceptYes(); }
+      else if(lower==="n" || lower==="no"){ input.value=""; showNoMessage(); focusSafely(); }
+      else if(raw!==""){ showNoMessage(); input.value=""; focusSafely(); }
       return;
     }
-
-    if (step === 2) {
-      if (normalized.includes('junkfood')) {
-        clearAlert();
-        startIgnition();
-      } else if (raw === '') {
-        // ignore
-      } else {
-        showAlert('Fuel core not recognized. Try again — you know this one.');
-        input.value = '';
-      }
+    if(step===2){
+      /* ANY non-empty food keyword is accepted, intentionally. */
+      if(raw!==""){ startIgnition(); }
     }
+  }catch(err){
+    /* Fail-safe: never strand the cursor or freeze keyboard interaction. */
+    busy=false; focusSafely();
   }
+}
 
-  function startIgnition() {
-    stage1.classList.add('starting');
-    setTimeout(() => { stage1.classList.add('leaving'); }, 550);
-    setTimeout(() => {
-      stage1.style.display = 'none';
-      stage2.classList.add('visible');
-      animateBanner();
-      animateBars();
-      launchConfetti();
-      runTerminal();
-    }, 1250);
+
+function launchMegaConfetti(){
+  const layer=document.createElement("div");
+  layer.id="megaConfetti";
+  Object.assign(layer.style,{position:"fixed",inset:"0",pointerEvents:"none",zIndex:"90",overflow:"hidden"});
+  document.body.appendChild(layer);
+  const pieces=180;
+  for(let i=0;i<pieces;i++){
+    const p=document.createElement("div");
+    const size=3+Math.random()*7;
+    const hue=Math.random()<.72 ? "cyan" : "white";
+    p.style.position="absolute";
+    p.style.left=(Math.random()*100)+"vw";
+    p.style.top=(-20-Math.random()*45)+"px";
+    p.style.width=size+"px";
+    p.style.height=(size*(1.3+Math.random()*1.7))+"px";
+    p.style.borderRadius=Math.random()>.55?"50%":"2px";
+    p.style.background=hue==="cyan"?"#65d7ff":"#eefaff";
+    p.style.boxShadow=hue==="cyan"?"0 0 8px #1597ff,0 0 18px rgba(21,151,255,.8)":"0 0 8px #fff";
+    const duration=2.5+Math.random()*3.8;
+    p.style.animation=`megaFall ${duration}s cubic-bezier(.15,.65,.25,1) ${Math.random()*.8}s forwards`;
+    p.style.setProperty("--drift",(Math.random()*360-180)+"px");
+    p.style.setProperty("--spin",(Math.random()*1080-540)+"deg");
+    layer.appendChild(p);
   }
+  setTimeout(()=>layer.remove(),7000);
+}
 
-  function animateBanner() {
-    const text = "Happy Birthday!";
-    bannerTitle.innerHTML = '';
-    text.split(' ').forEach((word, i) => {
-      const span = document.createElement('span');
-      span.className = 'word';
-      span.textContent = word + '\u00A0';
-      span.style.animationDelay = (i * 0.15) + 's';
-      bannerTitle.appendChild(span);
-    });
+function startIgnition(){
+  if(busy)return; busy=true; step=3; clearAlert();
+  createShatter();
+  stage1.classList.add("leaving");
+  setTimeout(()=>{
+    stage1.style.display="none"; stage2.classList.add("visible"); launchMegaConfetti();
+    animateBanner(); animateBars(); runTerminal(); startClock();
+    setTimeout(()=>typeLetter(),650);
+  },1050);
+}
+function createShatter(){
+  const layer=document.createElement("div"); layer.className="shatter"; document.body.appendChild(layer);
+  for(let i=0;i<42;i++){
+    const s=document.createElement("div"); s.className="shard";
+    const w=15+Math.random()*70,h=10+Math.random()*55;
+    s.style.width=w+"px";s.style.height=h+"px";s.style.left=(Math.random()*100)+"vw";s.style.top=(Math.random()*100)+"vh";
+    s.style.setProperty("--x",(Math.random()*500-250)+"px");s.style.setProperty("--y",(Math.random()*500-250)+"px");
+    s.style.setProperty("--r",(Math.random()*720-360)+"deg");s.style.animationDelay=(Math.random()*.22)+"s";
+    layer.appendChild(s);
   }
-
-  function animateBars() {
-    document.querySelectorAll('.bar-fill').forEach(bar => {
-      const target = bar.getAttribute('data-target');
-      requestAnimationFrame(() => { bar.style.width = target + '%'; });
-    });
+  setTimeout(()=>layer.remove(),1450);
+}
+function animateBanner(){
+  const b=$("bannerTitle"); b.textContent="";
+  ["HAPPY","BIRTHDAY,","BABY. 🥳"].forEach((word,i)=>{
+    const span=document.createElement("span");span.textContent=word;span.style.animationDelay=(i*.16)+"s";b.appendChild(span);
+  });
+}
+function animateBars(){
+  document.querySelectorAll(".fill").forEach((bar,i)=>{
+    setTimeout(()=>{bar.style.width=bar.dataset.target+"%"},180+i*170);
+  });
+}
+function runTerminal(){
+  const body=$("terminalBody");
+  const lines=[
+    '<span class="tblue">$ relationship-os --build birthday</span>'
+    '> checking stubbornness.js... <span class="tblue">still stubborn</span>',
+    '> compiling heart.module... <span class="tok">100% match found</span>',
+    '> connecting Mercedes telemetry... <span class="tok">online</span>',
+    '> validating McDonald\'s dependency... <span class="tblue">CRITICAL LOAD 🍔</span>',
+    '> deployment status: <span class="tok">BIRTHDAY BOY UNLOCKED ✓</span>',
+    '',
+    '<span class="tblue">$ git commit -m "another year of my favorite human"</span>',
+    '<span class="tok">[main] love forever --no-expiry</span>'
+  ];
+  body.innerHTML="";
+  lines.forEach((line,i)=>{
+    const d=document.createElement("div");d.className="termline";d.innerHTML=line||"&nbsp;";
+    d.style.animationDelay=(.1+i*.13)+"s";body.appendChild(d);
+  });
+}
+function typeLetter(){
+  const el=$("letterBody"), full=el.textContent;
+  el.textContent="";el.classList.add("ready");
+  let i=0;
+  function tick(){
+    if(i<full.length){el.textContent+=full[i++];setTimeout(tick,Math.max(8,Math.min(27,full[i-1]==="\n"?55:15)));}
   }
+  tick();
+}
+function startClock(){
+  const hour=document.querySelector(".hour"), minute=document.querySelector(".minute"), second=document.querySelector(".second");
+  function update(){
+    const now=new Date(), sec=now.getSeconds()+now.getMilliseconds()/1000, min=now.getMinutes()+sec/60, hr=(now.getHours()%12)+min/60;
+    second.style.transform="translateX(-50%) rotate("+((sec/60)*360)+"deg)";
+    minute.style.transform="translateX(-50%) rotate("+(min*6)+"deg)";
+    hour.style.transform="translateX(-50%) rotate("+(hr*30)+"deg)";
+    requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
 
-  function launchConfetti() {
-    const glowColors = [
-      { fill: '#9FCBFF', glow: 'rgba(159,203,255,0.9)' },
-      { fill: '#7FB0E8', glow: 'rgba(127,176,232,0.9)' },
-      { fill: '#E7ECF3', glow: 'rgba(231,236,243,0.85)' },
-      { fill: '#C9D6E8', glow: 'rgba(201,214,232,0.8)' }
-    ];
-    const count = 90;
-    for (let i = 0; i < count; i++) {
-      const piece = document.createElement('div');
-      piece.className = 'confetti-piece';
-      const c = glowColors[Math.floor(Math.random() * glowColors.length)];
-      const isDot = Math.random() > 0.55;
-      const size = isDot ? (4 + Math.random() * 4) : null;
-
-      piece.style.left = (Math.random() * 100) + 'vw';
-      piece.style.background = c.fill;
-      piece.style.boxShadow = `0 0 8px ${c.glow}, 0 0 16px ${c.glow}`;
-
-      if (isDot) {
-        piece.style.width = size + 'px';
-        piece.style.height = size + 'px';
-        piece.style.borderRadius = '50%';
-      } else {
-        piece.style.width = (4 + Math.random() * 4) + 'px';
-        piece.style.height = (10 + Math.random() * 9) + 'px';
-        piece.style.borderRadius = '2px';
-      }
-
-      const duration = 2.4 + Math.random() * 2.2;
-      piece.style.animationDuration = duration + 's';
-      piece.style.animationDelay = (Math.random() * 0.7) + 's';
-      confettiLayer.appendChild(piece);
-      setTimeout(() => piece.remove(), (duration + 1) * 1000);
+/* Explicit keyboard fail-safe. Enter works on the input; global Enter recovers focus. */
+input.addEventListener("keydown",function(e){
+  try{
+    if(e.key==="Enter"){
+      e.preventDefault(); e.stopPropagation(); handleSubmit();
     }
-  }
+  }catch(_){ e.preventDefault(); focusSafely(); }
+});
+fallback.addEventListener("click",function(e){
+  try{e.preventDefault();handleSubmit();}catch(_){focusSafely();}
+});
+stage1.addEventListener("click",function(){ if(step<3) focusSafely(); });
+document.addEventListener("keydown",function(e){
+  try{
+    if(step<3 && e.key==="Enter" && document.activeElement!==input){
+      e.preventDefault(); focusSafely();
+    }
+  }catch(_){ focusSafely(); }
+});
+window.addEventListener("load",focusSafely);
+setTimeout(focusSafely,250);
+setInterval(()=>{if(step<3 && !busy) focusSafely();},1200);
 
-  function runTerminal() {
-    const lines = [
-      '<span class="t-mute">$</span> <span class="t-key">life-os</span> --build birthday',
-      '<span class="t-mute">></span> compiling 1 year of memories<span class="t-mute">...</span> <span class="t-ok">done</span>',
-      '<span class="t-mute">></span> optimizing <span class="t-key">stubbornness.js</span><span class="t-mute">...</span> <span class="t-ok">still stubborn, love it anyway</span>',
-      '<span class="t-mute">></span> linking <span class="t-key">heart.module</span><span class="t-mute">...</span> <span class="t-ok">100% match found</span>',
-      '<span class="t-mute">></span> build <span class="t-ok">succeeded ✓</span>',
-      '',
-      '<span class="t-mute">$</span> <span class="t-key">git</span> log -1',
-      '<span class="t-mute">commit</span> 8f3a21c',
-      '<span class="t-mute">Author:</span> your girlfriend <span class="t-str">&lt;3</span>',
-      '<span class="t-mute">Date:</span>   today',
-      '',
-      '    <span class="t-str">feat: another year of you, unlocked</span><span class="cursor-blink"></span>'
-    ];
-    terminalBody.innerHTML = '';
-    lines.forEach((html, i) => {
-      const div = document.createElement('div');
-      div.className = 'term-line';
-      div.innerHTML = html || '&nbsp;';
-      div.style.animationDelay = (0.15 + i * 0.16) + 's';
-      terminalBody.appendChild(div);
-    });
-  }
-
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') { e.preventDefault(); handleSubmit(); }
-  });
-  submitFallback.addEventListener('click', handleSubmit);
-  stage1.addEventListener('click', () => { if (stage1.style.display !== 'none') input.focus(); });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && document.activeElement !== input && stage1.style.display !== 'none') input.focus();
-  });
-  window.addEventListener('load', () => input.focus());
-  setTimeout(() => input.focus(), 300);
-
-  function updateClockHands() {
-    const now = new Date();
-    const m = now.getMinutes() + now.getSeconds() / 60;
-    const h = (now.getHours() % 12) + m / 60;
-    document.querySelector('.watch-hand.hr').style.transform = `rotate(${h * 30}deg)`;
-    document.querySelector('.watch-hand.min').style.transform = `rotate(${m * 6}deg)`;
-  }
-  updateClockHands();
-  setInterval(updateClockHands, 30000);
-
-  const face = document.getElementById('watchFace');
-  for (let i = 0; i < 60; i++) {
-    const t = document.createElement('div');
-    t.className = 'watch-tick' + (i % 5 === 0 ? ' h' : '');
-    t.style.transform = `rotate(${i * 6}deg)`;
-    face.insertBefore(t, face.firstChild);
-  }
 })();
 </script>
-
 </body>
-</html> 
+</html>
