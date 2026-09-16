@@ -362,7 +362,7 @@ function createShatter(){
 }
 function animateBanner(){
   const b=$("bannerTitle"); b.textContent="";
-  ["HAPPY","BIRTHDAY,","BABY. ❤️"].forEach((word,i)=>{
+  ["HAPPY","BIRTHDAY,","BABY. 🥳"].forEach((word,i)=>{
     const span=document.createElement("span");span.textContent=word;span.style.animationDelay=(i*.16)+"s";b.appendChild(span);
   });
 }
@@ -374,8 +374,7 @@ function animateBars(){
 function runTerminal(){
   const body=$("terminalBody");
   const lines=[
-    '<span class="tblue">$ relationship-os --build birthday</span>',
-    '> loading 25 years of software updates... <span class="tok">done</span>',
+    '<span class="tblue">$ relationship-os --build birthday</span>'
     '> checking stubbornness.js... <span class="tblue">still stubborn</span>',
     '> compiling heart.module... <span class="tok">100% match found</span>',
     '> connecting Mercedes telemetry... <span class="tok">online</span>',
