@@ -1,3 +1,4 @@
+
 Index · HTML
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +23,7 @@ Index · HTML
   }
  
   * { box-sizing: border-box; }
-  html, body { margin: 0; height: 100%; }
+  html, body { margin: 0; min-height: 100%; }
  
   body {
     position: relative;
@@ -34,9 +35,7 @@ Index · HTML
     color: var(--ivory);
     font-family: -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif;
     min-height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
     padding: 32px 18px;
     overflow-x: hidden;
   }
@@ -72,6 +71,7 @@ Index · HTML
  
   #stage1 {
     width: 100%; max-width: 460px;
+    margin: 6vh auto;
     perspective: 900px;
     transition: opacity 0.7s ease, transform 0.7s ease, filter 0.7s ease;
   }
@@ -151,7 +151,7 @@ Index · HTML
      ========================================================= */
  
   #stage2 {
-    width: 100%; max-width: 920px; display: none; grid-template-columns: 1fr 1fr; gap: 22px;
+    width: 100%; max-width: 920px; margin: 0 auto; display: none; grid-template-columns: 1fr 1fr; gap: 22px;
     align-items: start;
     opacity: 0; transform: translateY(34px); transition: opacity 0.9s ease, transform 0.9s ease;
   }
@@ -159,7 +159,8 @@ Index · HTML
  
   .banner { grid-column: 1 / -1; text-align: center; padding: 6px 0 4px; }
   .banner-title {
-    font-family: Georgia, 'Times New Roman', serif; font-size: 44px; line-height: 1.15; color: var(--ivory); margin: 0;
+    font-family: Georgia, 'Times New Roman', serif; font-size: 44px; line-height: 1.15; color: var(--blue-bright); margin: 0;
+    text-shadow: 0 0 26px var(--blue-glow), 0 0 50px rgba(62,111,168,0.25);
     opacity: 0; transform: translateY(14px); animation: bannerIn 0.7s ease forwards;
   }
   @keyframes bannerIn { to { opacity: 1; transform: translateY(0); } }
@@ -313,7 +314,7 @@ Index · HTML
 <div id="stage2">
  
   <div class="banner">
-    <h1 class="banner-title" id="bannerTitle">Happy Birthday!</h1>
+    <h1 class="banner-title" id="bannerTitle">Happy Birthday, Baby</h1>
     <div class="banner-sub">Ignition confirmed. Birthday clearance granted.</div>
   </div>
  
@@ -501,7 +502,6 @@ Index · HTML
       launchConfetti();
       runTerminal();
       typewriterLetter();
-      startMatrixRain();
     }, 1250);
   }
  
@@ -577,15 +577,19 @@ Index · HTML
   /* ---- typewriter reveal for the birthday letter ---- */
   function typewriterLetter() {
     const fullText =
-`Happy level up day to my favorite lil genius! 🧠💻
+`Ahhhhhh I literally don't even know what to say because I'm SO bad at thissss 😭 but here I goooo…
  
-Well, look at us... I don't even know what to say, damnnn I'm so bad at this outfff! 🙈 But here I am, coding a whole website just to get through your stubborn skull.
+Happy Level Up Day to my favorite lil genius!!! 🎂 Another year smarter, hotter… and somehow still my favorite pain in the ass 😌
  
-I just really wanna say that I am so incredibly proud of you for being exactly where you are right now. You are doing amazing, babe. I want you to know that I'll be right by your side through every single up and down that life throws at us. ♾️❤️
+I just really want you to know how incredibly proud I am of you and everything you're doing. You're doing AMAZING babe, even on the days when you don't realize it yourself.🫶🏻
  
-I love you so much! But seriously... now that you signed the waiver, you better actually stop being so stubborn and start listening to me! 😉 Dynamic girlfriend directives are non-negotiable.
+And no matter what life throws at us—good days, bad days, crazy days —I'll be right here beside you through ALL of it. ♾️❤️
  
-Now exit out of your VS Code editor, look away from the terminal, and let's go celebrate your birthday properly! 🥂🏎️💨`;
+I hope this new chapter brings you everything you deserve, because my baby better be out here winningggg 🏆✨ And just so you know… I'm gonna be annoying you, supporting you, hyping you up, and loving you through every single level💕
+ 
+I love you SO freaking much. ❤️♾️
+ 
+Now go enjoy your day, birthday boy… you're officially another level hotter. 😏🔥`;
  
     if (reducedMotion) {
       letterBody.textContent = fullText;
@@ -643,6 +647,7 @@ Now exit out of your VS Code editor, look away from the terminal, and let's go c
     document.querySelector('.watch-hand.min').style.transform = `rotate(${m * 6}deg)`;
   }
   updateClockHands();
+  startMatrixRain();
   setInterval(updateClockHands, 30000);
  
   const face = document.getElementById('watchFace');
