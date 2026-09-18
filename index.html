@@ -77,8 +77,6 @@ h2{font-size:22px;letter-spacing:.04em;margin:0 0 22px;font-weight:600}
 /* Use a smaller translate to avoid colliding with wrapped lines during the entrance animation */
 .banner h1 span{display:inline-block;opacity:0;transform:translateY(8px);animation:rise .7s forwards;margin:0 .25em}
 @keyframes rise{to{opacity:1;transform:none}}
-/* Keep emoji rendered with their native color by excluding them from the gradient text clipping */
-.banner h1 .emoji{background:none!important;-webkit-background-clip:unset;background-clip:unset;color:initial!important;-webkit-text-fill-color:initial!important;display:inline-block;vertical-align:middle;text-shadow:none;mix-blend-mode:normal}
 /* Fallback title: show when #bannerTitle remains empty (JS animation didn't populate it) */
 .banner h1.banner-fallback{display:none;margin:0;font-size:clamp(32px,6vw,58px);line-height:1.06;color:#eef7ff}
 #bannerTitle:empty + .banner-fallback{display:block}
@@ -189,7 +187,7 @@ h2{font-size:22px;letter-spacing:.04em;margin:0 0 22px;font-weight:600}
   <div class="grid">
     <div class="banner">
       <h1 id="bannerTitle" aria-hidden="true"></h1>
-      <h1 class="banner-fallback" aria-live="polite">HAPPY BIRTHDAY, BABY. <span class="emoji">🥳</span></h1>
+      <h1 class="banner-fallback" aria-live="polite">HAPPY BIRTHDAY, BABY.</h1>
       <div class="sub">Ignition confirmed // Birthday clearance granted</div>
     </div>
 
@@ -371,16 +369,10 @@ function createShatter(){
 }
 function animateBanner(){
   const b=$("bannerTitle"); b.textContent="";
-  ["HAPPY ","BIRTHDAY ","BABY 🥳"].forEach((word,i)=>{
+  ["HAPPY","BIRTHDAY,","BABY."] .forEach((word,i)=>{
     const span=document.createElement("span");
     span.style.animationDelay=(i*.16)+"s";
-    // Preserve native emoji color by wrapping emoji characters in a separate element
-    if(word.indexOf('🥳')!==-1){
-      const safe = word.replace('🥳','<span class="emoji">🥳</span>');
-      span.innerHTML = safe;
-    }else{
-      span.textContent = word;
-    }
+    span.textContent = word;
     b.appendChild(span);
   });
 }
