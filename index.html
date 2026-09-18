@@ -71,7 +71,8 @@ h2{font-size:22px;letter-spacing:.04em;margin:0 0 22px;font-weight:600}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .banner{grid-column:1/-1;text-align:center;padding:8px 0 18px}
 /* Prevent overlapping on some Windows fonts: reduce negative tracking and add modest line-height */
-.banner h1{margin:0;font-size:clamp(32px,6vw,58px);letter-spacing:0;background:linear-gradient(90deg,#eef7ff,#73d5ff,#1597ff,#eef7ff);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:titleGlow 5s linear infinite;text-shadow:0 0 30px rgba(21,151,255,.18);line-height:1.06}
+.banner h1{margin:0;font-size:clamp(32px,6vw,58px);letter-spacing:0;color:#eef7ff; /* fallback when gradient clipping not supported */
+    background:linear-gradient(90deg,#eef7ff,#73d5ff,#1597ff,#eef7ff);background-size:220% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:titleGlow 5s linear infinite;text-shadow:0 0 30px rgba(21,151,255,.18);line-height:1.06}
 @keyframes titleGlow{to{background-position:220% center}}
 /* Use a smaller translate to avoid colliding with wrapped lines during the entrance animation */
 .banner h1 span{display:inline-block;opacity:0;transform:translateY(8px);animation:rise .7s forwards;margin:0 .25em}
