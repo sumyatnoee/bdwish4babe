@@ -70,10 +70,14 @@ h2{font-size:22px;letter-spacing:.04em;margin:0 0 22px;font-weight:600}
 #stage2.visible{display:block;opacity:1;transform:translateY(0)}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .banner{grid-column:1/-1;text-align:center;padding:8px 0 18px}
-.banner h1{margin:0;font-size:clamp(32px,6vw,58px);letter-spacing:-.04em;background:linear-gradient(90deg,#eef7ff,#73d5ff,#1597ff,#eef7ff);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:titleGlow 5s linear infinite;text-shadow:0 0 30px rgba(21,151,255,.18)}
+/* Prevent overlapping on some Windows fonts: reduce negative tracking and add modest line-height */
+.banner h1{margin:0;font-size:clamp(32px,6vw,58px);letter-spacing:0;background:linear-gradient(90deg,#eef7ff,#73d5ff,#1597ff,#eef7ff);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:titleGlow 5s linear infinite;text-shadow:0 0 30px rgba(21,151,255,.18);line-height:1.06}
 @keyframes titleGlow{to{background-position:220% center}}
-.banner h1 span{display:inline-block;opacity:0;transform:translateY(18px);animation:rise .7s forwards}
+/* Use a smaller translate to avoid colliding with wrapped lines during the entrance animation */
+.banner h1 span{display:inline-block;opacity:0;transform:translateY(8px);animation:rise .7s forwards;margin:0 .25em}
 @keyframes rise{to{opacity:1;transform:none}}
+/* Keep emoji rendered with their native color by excluding them from the gradient text clipping */
+.banner h1 .emoji{background:none!important;-webkit-background-clip:unset;background-clip:unset;color:initial!important;display:inline-block;vertical-align:middle;text-shadow:none;mix-blend-mode:normal}
 .sub{margin-top:10px;color:var(--cyan);font-size:12px;letter-spacing:.16em;text-transform:uppercase}
 .panel{position:relative;overflow:hidden;padding:28px;background:linear-gradient(145deg,rgba(15,21,28,.96),rgba(5,8,12,.98));border:1px solid #2b3743;border-radius:17px;box-shadow:0 25px 70px rgba(0,0,0,.55),inset 0 1px rgba(255,255,255,.04)}
 .panel:before{content:"";position:absolute;inset:-100%;background:radial-gradient(circle,rgba(21,151,255,.08),transparent 45%);animation:glowMove 7s linear infinite;pointer-events:none}
@@ -362,8 +366,17 @@ function createShatter(){
 }
 function animateBanner(){
   const b=$("bannerTitle"); b.textContent="";
-  ["HAPPY","BIRTHDAY,","BABY. 🥳"].forEach((word,i)=>{
-    const span=document.createElement("span");span.textContent=word;span.style.animationDelay=(i*.16)+"s";b.appendChild(span);
+  ["HAPPY ","BIRTHDAY ","BABY 🥳"].forEach((word,i)=>{
+    const span=document.createElement("span");
+    span.style.animationDelay=(i*.16)+"s";
+    // Preserve native emoji color by wrapping emoji characters in a separate element
+    if(word.indexOf('🥳')!==-1){
+      const safe = word.replace('🥳','<span class="emoji">🥳</span>');
+      span.innerHTML = safe;
+    }else{
+      span.textContent = word;
+    }
+    b.appendChild(span);
   });
 }
 function animateBars(){
