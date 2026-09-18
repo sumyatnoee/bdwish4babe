@@ -79,6 +79,9 @@ h2{font-size:22px;letter-spacing:.04em;margin:0 0 22px;font-weight:600}
 @keyframes rise{to{opacity:1;transform:none}}
 /* Keep emoji rendered with their native color by excluding them from the gradient text clipping */
 .banner h1 .emoji{background:none!important;-webkit-background-clip:unset;background-clip:unset;color:initial!important;-webkit-text-fill-color:initial!important;display:inline-block;vertical-align:middle;text-shadow:none;mix-blend-mode:normal}
+/* Fallback title: show when #bannerTitle remains empty (JS animation didn't populate it) */
+.banner h1.banner-fallback{display:none;margin:0;font-size:clamp(32px,6vw,58px);line-height:1.06;color:#eef7ff}
+#bannerTitle:empty + .banner-fallback{display:block}
 .sub{margin-top:10px;color:var(--cyan);font-size:12px;letter-spacing:.16em;text-transform:uppercase}
 .panel{position:relative;overflow:hidden;padding:28px;background:linear-gradient(145deg,rgba(15,21,28,.96),rgba(5,8,12,.98));border:1px solid #2b3743;border-radius:17px;box-shadow:0 25px 70px rgba(0,0,0,.55),inset 0 1px rgba(255,255,255,.04)}
 .panel:before{content:"";position:absolute;inset:-100%;background:radial-gradient(circle,rgba(21,151,255,.08),transparent 45%);animation:glowMove 7s linear infinite;pointer-events:none}
@@ -185,7 +188,8 @@ h2{font-size:22px;letter-spacing:.04em;margin:0 0 22px;font-weight:600}
 <section id="stage2">
   <div class="grid">
     <div class="banner">
-      <h1 id="bannerTitle"></h1>
+      <h1 id="bannerTitle" aria-hidden="true"></h1>
+      <h1 class="banner-fallback" aria-live="polite">HAPPY BIRTHDAY, BABY. <span class="emoji">🥳</span></h1>
       <div class="sub">Ignition confirmed // Birthday clearance granted</div>
     </div>
 
