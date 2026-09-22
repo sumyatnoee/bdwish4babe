@@ -27,9 +27,9 @@
     position: relative;
     background: var(--void);
     background-image:
-      radial-gradient(ellipse at 50% 0%, rgba(62,111,168,0.13), transparent 55%),
-      radial-gradient(ellipse at 50% 100%, rgba(62,111,168,0.09), transparent 60%),
-      repeating-linear-gradient(115deg, rgba(255,255,255,0.014) 0px, rgba(255,255,255,0.014) 1px, transparent 1px, transparent 6px);
+      radial-gradient(ellipse at 50% 0%, rgba(62,111,168,0.16), transparent 55%),
+      radial-gradient(ellipse at 50% 100%, rgba(62,111,168,0.11), transparent 60%),
+      repeating-linear-gradient(115deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 6px);
     color: var(--ivory);
     font-family: -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif;
     min-height: 100%;
@@ -38,24 +38,25 @@
     overflow-x: hidden;
     transition: background 0.8s ease;
   }
-
+ 
   body.lights-off {
     background: #020305 !important;
   }
  
   .bg-emblem {
     position: fixed; top: 50%; left: 50%; width: 1100px; height: 1100px;
-    transform: translate(-50%, -50%); opacity: 0.035; z-index: 0; pointer-events: none;
+    transform: translate(-50%, -50%); opacity: 0.05; z-index: 0; pointer-events: none;
     animation: bgSpin 200s linear infinite, bgBreathe 6s ease-in-out infinite;
   }
   @keyframes bgSpin { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
-  @keyframes bgBreathe { 0%,100% { opacity: 0.03; } 50% { opacity: 0.05; } }
+  @keyframes bgBreathe { 0%,100% { opacity: 0.04; } 50% { opacity: 0.07; } }
  
   #matrixLayer { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
   .stream {
-    position: absolute; top: -80px; width: 2px; height: 70px;
+    position: absolute; top: -90px; width: 2.5px; height: 80px;
     background: linear-gradient(180deg, transparent, var(--blue-bright), transparent);
-    opacity: 0.45; animation: streamFall linear forwards;
+    opacity: 0.6; animation: streamFall linear forwards;
+    box-shadow: 0 0 8px var(--blue-glow);
   }
   @keyframes streamFall { to { transform: translateY(115vh); opacity: 0; } }
  
@@ -148,11 +149,11 @@
  
   .submit-fallback { margin-top: 16px; width: 100%; background: transparent; border: 1px solid var(--line); color: var(--silver); font-family: inherit; font-size: 13px; padding: 10px; border-radius: 8px; cursor: pointer; transition: border-color 0.2s ease, color 0.2s ease; }
   .submit-fallback:hover { border-color: var(--blue); color: var(--ivory); }
-
+ 
   /* =========================================================
-     STAGE CAKE — DECORATED PARTY ROOM & REALISTIC CHOCOLATE CAKE
+     STAGE CAKE — DECORATED PARTY ROOM & 3D CHOCOLATE CAKE
      ========================================================= */
-
+ 
   #stageCake {
     display: none;
     flex-direction: column;
@@ -169,7 +170,25 @@
     display: flex;
     opacity: 1;
   }
-
+ 
+  .cake-room-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 340px;
+    height: 340px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.32) 0%, rgba(255, 105, 180, 0.18) 50%, rgba(0, 0, 0, 0) 70%);
+    border-radius: 50%;
+    filter: blur(25px);
+    pointer-events: none;
+    animation: pulseGlow 4s ease-in-out infinite alternate;
+  }
+  @keyframes pulseGlow {
+    0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.6; }
+    100% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+  }
+ 
   /* --- Room Fairy Lights --- */
   .fairy-string {
     position: absolute;
@@ -195,18 +214,16 @@
   .fairy-bulb:nth-child(even) {
     background: #7FB0E8;
     box-shadow: 0 0 12px #7FB0E8, 0 0 25px #3E6FA8;
-    animation-delay: 0.4s;
   }
   .fairy-bulb:nth-child(3n) {
     background: #FF8FD1;
     box-shadow: 0 0 12px #FF8FD1, 0 0 25px #C4574B;
-    animation-delay: 0.8s;
   }
   @keyframes bulbGlow {
-    0% { opacity: 0.6; transform: rotate(-5deg) scale(0.95); }
-    100% { opacity: 1; transform: rotate(5deg) scale(1.05); }
+    0% { opacity: 0.55; transform: rotate(-5deg) scale(0.92); }
+    100% { opacity: 1; transform: rotate(5deg) scale(1.08); }
   }
-
+ 
   /* --- Party Banner --- */
   .banner-string {
     position: absolute;
@@ -215,6 +232,7 @@
     gap: 8px;
     z-index: 7;
     pointer-events: none;
+    perspective: 400px;
   }
   .flag {
     width: 32px;
@@ -230,56 +248,79 @@
     font-weight: bold;
     color: var(--ivory);
     box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-    animation: flagSway 3s infinite ease-in-out alternate;
+    animation: flagSway 2.6s infinite ease-in-out alternate;
+    transform-origin: top center;
   }
   .flag:nth-child(even) {
     background: linear-gradient(135deg, #FF8FD1, #2A2D35);
-    animation-delay: 0.5s;
   }
   @keyframes flagSway {
-    0% { transform: rotate(-3deg); }
-    100% { transform: rotate(3deg); }
+    0% { transform: rotateY(-14deg) rotate(-4deg); }
+    100% { transform: rotateY(14deg) rotate(4deg); }
   }
-
+ 
   /* --- Interactive Floating Balloons --- */
   .balloon-container {
     position: absolute;
     inset: 0;
+    overflow: hidden;
     pointer-events: none;
     z-index: 2;
   }
   .balloon {
     position: absolute;
-    width: 58px;
-    height: 72px;
-    border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+    bottom: -130px;
+    width: 54px;
+    height: 66px;
+    border-radius: 50% 50% 50% 50% / 42% 42% 58% 58%;
     cursor: pointer;
     pointer-events: auto;
-    animation: balloonFloat 6s infinite ease-in-out alternate;
-    box-shadow: inset -8px -8px 15px rgba(0,0,0,0.4), inset 8px 8px 15px rgba(255,255,255,0.25);
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    box-shadow: inset -10px -10px 18px rgba(0,0,0,0.35), inset 10px 12px 20px rgba(255,255,255,0.35), 0 12px 22px rgba(0,0,0,0.4);
+    animation: floatUp linear infinite;
+    transition: transform 0.15s ease;
+  }
+  .balloon:hover { transform: scale(1.08); }
+  .balloon::before {
+    content: ""; position: absolute; top: 14%; left: 22%; width: 30%; height: 20%;
+    background: rgba(255,255,255,0.55); border-radius: 50%; filter: blur(1.5px);
   }
   .balloon::after {
-    content: "";
-    position: absolute;
-    bottom: -12px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 2px;
-    height: 45px;
-    background: rgba(255,255,255,0.25);
+    content: ""; position: absolute; bottom: -38px; left: 50%; width: 1.5px; height: 40px;
+    background: rgba(255,255,255,0.35); transform: translateX(-50%);
   }
-  .b-blue { background: radial-gradient(circle at 35% 30%, #a2c8f5, #3E6FA8); bottom: 15%; left: 8%; animation-delay: 0s; }
-  .b-pink { background: radial-gradient(circle at 35% 30%, #ffc2e5, #d9539f); bottom: 25%; right: 10%; animation-delay: 1.2s; }
-  .b-gold { background: radial-gradient(circle at 35% 30%, #ffe89e, #c99320); bottom: 40%; left: 5%; animation-delay: 2.1s; }
-  .b-silver { background: radial-gradient(circle at 35% 30%, #ffffff, #838a96); bottom: 48%; right: 7%; animation-delay: 0.7s; }
-
-  @keyframes balloonFloat {
-    0% { transform: translateY(0) rotate(-3deg); }
-    100% { transform: translateY(-28px) rotate(4deg); }
+  .b-blue { background: radial-gradient(circle at 35% 30%, #a2c8f5, #3E6FA8); }
+  .b-pink { background: radial-gradient(circle at 35% 30%, #ffc2e5, #d9539f); animation-delay: 1.4s; }
+  .b-gold { background: radial-gradient(circle at 35% 30%, #ffe89e, #c99320); animation-delay: 2.8s; }
+  .b-silver { background: radial-gradient(circle at 35% 30%, #ffffff, #838a96); animation-delay: 0.7s; }
+ 
+  @keyframes floatUp {
+    0% { transform: translateY(0) translateX(0) rotate(-4deg); opacity: 0.95; }
+    50% { transform: translateY(-55vh) translateX(var(--driftX, 12px)) rotate(4deg); }
+    100% { transform: translateY(-118vh) translateX(0) rotate(-4deg); opacity: 0; }
   }
-
-  /* --- Chocolate Cake Stage Setup --- */
+ 
+  .pop-particle {
+    position: fixed; width: 6px; height: 6px; border-radius: 50%;
+    pointer-events: none; z-index: 60;
+    animation: popBurst 0.55s ease-out forwards;
+  }
+  @keyframes popBurst {
+    0% { transform: translate(0,0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) scale(0.2); opacity: 0; }
+  }
+ 
+  .cake-sparkle {
+    position: fixed; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--blue-bright); box-shadow: 0 0 10px var(--blue-glow);
+    pointer-events: none; z-index: 60;
+    animation: sparklePop 0.7s ease-out forwards;
+  }
+  @keyframes sparklePop {
+    0% { transform: translate(0,0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+  }
+ 
+  /* --- 3D Chocolate Cake Assembly --- */
   .cake-stage-container {
     position: relative;
     width: 340px;
@@ -290,9 +331,25 @@
     justify-content: flex-end;
     margin-top: 30px;
     z-index: 5;
+    perspective: 1000px;
+    cursor: pointer;
   }
-
-  /* Wooden Pedestal Stand */
+ 
+  .cake-rotator {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    transform-style: preserve-3d;
+    animation: cakeSpin 8s ease-in-out infinite;
+  }
+  @keyframes cakeSpin {
+    0%, 100% { transform: rotateY(-9deg); }
+    50% { transform: rotateY(9deg); }
+  }
+ 
   .cake-plate {
     width: 310px;
     height: 22px;
@@ -304,8 +361,7 @@
     position: relative;
     border-bottom: 3px solid #140d09;
   }
-
-  /* Cake Tiers */
+ 
   .cake-tier {
     position: absolute;
     border-radius: 14px;
@@ -316,13 +372,24 @@
     display: flex;
     justify-content: center;
   }
-
+ 
   .cake-tier.dropped {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
-
-  /* Rich Chocolate Textures */
+ 
+  .cake-tier::before {
+    content: ""; position: absolute; inset: 0; border-radius: inherit;
+    background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.14) 45%, transparent 60%);
+    background-size: 260% 260%;
+    animation: shineSweep 5s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes shineSweep {
+    0%, 100% { background-position: 200% 0%; }
+    50% { background-position: -60% 100%; }
+  }
+ 
   .tier-bottom {
     bottom: 42px;
     width: 250px;
@@ -331,7 +398,7 @@
     border: 1px solid #4a2c1a;
     z-index: 2;
   }
-
+ 
   .tier-middle {
     bottom: 128px;
     width: 185px;
@@ -340,7 +407,7 @@
     border: 1px solid #54321e;
     z-index: 3;
   }
-
+ 
   .tier-top {
     bottom: 204px;
     width: 125px;
@@ -349,8 +416,7 @@
     border: 1px solid #5d3822;
     z-index: 4;
   }
-
-  /* Glossy Chocolate Drip Icing */
+ 
   .glossy-drip {
     position: absolute;
     top: 0;
@@ -361,7 +427,7 @@
     border-radius: 14px 14px 8px 8px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.8), inset 0 2px 3px rgba(255,255,255,0.2);
   }
-
+ 
   .glossy-drip::after {
     content: "";
     position: absolute;
@@ -372,8 +438,7 @@
     background: radial-gradient(circle, #0d0401 65%, transparent 70%);
     background-size: 20px 20px;
   }
-
-  /* Frosting Swirls & Berries Top Decor */
+ 
   .cake-toppings {
     position: absolute;
     top: -10px;
@@ -396,8 +461,7 @@
     border-radius: 50%;
     box-shadow: 0 2px 4px rgba(0,0,0,0.5);
   }
-
-  /* Interactive Multi-Candles */
+ 
   .candles-group {
     position: absolute;
     bottom: 270px;
@@ -405,7 +469,7 @@
     gap: 16px;
     z-index: 6;
   }
-
+ 
   .candle-item {
     position: relative;
     width: 10px;
@@ -417,7 +481,7 @@
     transform: translateY(-250px);
     transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
   }
-
+ 
   .candle-item:nth-child(2) {
     background: repeating-linear-gradient(45deg, #FF8FD1, #FF8FD1 6px, #ffffff 6px, #ffffff 12px);
     height: 54px;
@@ -425,12 +489,12 @@
   .candle-item:nth-child(3) {
     background: repeating-linear-gradient(45deg, #ffd700, #ffd700 6px, #ffffff 6px, #ffffff 12px);
   }
-
+ 
   .candle-item.dropped {
     opacity: 1;
     transform: translateY(0);
   }
-
+ 
   .flame-light {
     position: absolute;
     top: -18px;
@@ -445,17 +509,37 @@
     opacity: 0;
     transition: opacity 0.4s ease;
   }
-
+  .flame-light::after {
+    content: "";
+    position: absolute;
+    bottom: 2px; left: 50%; transform: translateX(-50%);
+    width: 5px; height: 9px;
+    background: radial-gradient(ellipse, #dff0ff 0%, #7FB0E8 70%, transparent 100%);
+    border-radius: 50%;
+    opacity: 0.85;
+  }
+ 
   .flame-light.lit {
     opacity: 1;
   }
-
+ 
   @keyframes flameFlicker {
     0% { transform: translateX(-50%) scale(1) rotate(-3deg); }
     100% { transform: translateX(-50%) scale(1.12) rotate(3deg); }
   }
-
-  /* Room Glow when Candles are lit */
+ 
+  .smoke-puff {
+    position: absolute; top: -20px; left: 50%; width: 10px; height: 16px;
+    background: radial-gradient(ellipse, rgba(200,200,200,0.55), transparent 70%);
+    border-radius: 50%; transform: translateX(-50%);
+    animation: smokeRise 1.4s ease-out forwards;
+    pointer-events: none;
+  }
+  @keyframes smokeRise {
+    0% { opacity: 0.65; transform: translate(-50%,0) scale(1); }
+    100% { opacity: 0; transform: translate(-50%,-42px) scale(2.4); }
+  }
+ 
   .room-candle-glow {
     position: absolute;
     top: -60px;
@@ -468,19 +552,18 @@
     opacity: 0;
     transition: opacity 0.5s ease;
   }
-
+ 
   body.lights-off .room-candle-glow.lit {
     opacity: 1;
   }
-
-  /* Control Panel Buttons */
+ 
   .cake-controls {
     margin-top: 20px;
     display: flex;
     gap: 14px;
     z-index: 10;
   }
-
+ 
   .cake-btn {
     background: linear-gradient(180deg, var(--panel), #101116);
     border: 1px solid var(--line);
@@ -493,16 +576,24 @@
     box-shadow: 0 4px 15px rgba(0,0,0,0.4);
     transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
   }
-
+ 
   .cake-btn:hover {
     border-color: var(--blue-bright);
     transform: translateY(-2px);
   }
-
+ 
   .cake-btn-primary {
     background: linear-gradient(180deg, var(--blue), #2a4d75);
     border-color: var(--blue-bright);
     box-shadow: 0 4px 18px var(--blue-glow);
+  }
+ 
+  .cake-hint {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--silver);
+    opacity: 0.75;
+    text-align: center;
   }
  
   /* =========================================================
@@ -617,64 +708,8 @@
     #stage1, #stage2, .bar-fill { transition: none; }
     .watch-hand.sec, .bg-emblem, .stream { animation: none; }
     .banner-title, .term-line { animation: none; opacity: 1; transform: none; }
+    .cake-rotator { animation: none; }
   }
-  /* --- Cake Room Ambient Glow --- */
-.cake-room-glow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 320px;
-  height: 320px;
-  background: radial-gradient(circle, rgba(255, 215, 0, 0.35) 0%, rgba(255, 105, 180, 0.2) 50%, rgba(0, 0, 0, 0) 70%);
-  border-radius: 50%;
-  filter: blur(25px);
-  pointer-events: none;
-  animation: pulseGlow 4s ease-in-out infinite alternate;
-}
-
-@keyframes pulseGlow {
-  0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.6; }
-  100% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
-}
-
-/* --- Floating Balloons --- */
-.balloon-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.balloon {
-  position: absolute;
-  bottom: -100px;
-  width: 40px;
-  height: 50px;
-  border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
-  animation: floatUp 8s linear infinite;
-  opacity: 0.85;
-}
-
-.balloon::after {
-  content: "";
-  position: absolute;
-  bottom: -12px;
-  left: 50%;
-  width: 2px;
-  height: 14px;
-  background: rgba(255, 255, 255, 0.6);
-  transform: translateX(-50%);
-}
-
-@keyframes floatUp {
-  0% { transform: translateY(0) rotate(0deg); opacity: 0.85; }
-  100% { transform: translateY(-110vh) rotate(20deg); opacity: 0; }
-}
 </style>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -683,51 +718,67 @@
         const seconds = now.getSeconds();
         const minutes = now.getMinutes();
         const hours = now.getHours();
-
+ 
         const secondDeg = (seconds / 60) * 360;
         const minuteDeg = ((minutes / 60) * 360) + ((seconds / 60) * 6);
         const hourDeg = ((hours / 12) * 360) + ((minutes / 60) * 30);
-
+ 
         const hourHand = document.querySelector('.watch-hand.hr');
         const minuteHand = document.querySelector('.watch-hand.min');
         const secondHand = document.querySelector('.watch-hand.sec');
-
+ 
         if (hourHand) hourHand.style.transform = `translateX(0) rotate(${hourDeg}deg)`;
         if (minuteHand) minuteHand.style.transform = `translateX(0) rotate(${minuteDeg}deg)`;
         if (secondHand) secondHand.style.transform = `translateX(0) rotate(${secondDeg}deg)`;
       }
-
+ 
       updateWatch();
       setInterval(updateWatch, 1000);
+ 
       function createBalloons() {
-      const container = document.querySelector('.balloon-container');
-      if (!container) return;
-
-      const colors = ['#ff4d6d', '#ffb703', '#4ea8de', '#70e000', '#b5179e'];
-
-      for (let i = 0; i < 8; i++) {
-        const balloon = document.createElement('div');
-        balloon.className = 'balloon';
-        balloon.setAttribute('onclick', 'popBalloon(this)');
-        
-        const randomColor = colors[Math.floor(Math.random() * colors.length)];
-        const randomLeft = Math.random() * 90;
-        const randomDelay = Math.random() * 6;
-        const randomDuration = 6 + Math.random() * 5;
-
-        balloon.style.backgroundColor = randomColor;
-        balloon.style.left = `${randomLeft}%`;
-        balloon.style.animationDelay = `${randomDelay}s`;
-        balloon.style.animationDuration = `${randomDuration}s`;
-
-        container.appendChild(balloon);
+        const container = document.querySelector('.balloon-container');
+        if (!container) return;
+ 
+        const colors = ['#ff4d6d', '#ffb703', '#4ea8de', '#70e000', '#b5179e', '#7FB0E8', '#FF8FD1', '#ffd700'];
+ 
+        for (let i = 0; i < 12; i++) {
+          const balloon = document.createElement('div');
+          balloon.className = 'balloon';
+          balloon.setAttribute('onclick', 'popBalloon(this, event)');
+ 
+          const randomColor = colors[Math.floor(Math.random() * colors.length)];
+          const randomLeft = Math.random() * 90;
+          const randomDelay = Math.random() * 7;
+          const randomDuration = 6 + Math.random() * 5;
+          const randomSize = 38 + Math.random() * 26;
+          const randomDrift = (Math.random() * 60 - 30) + 'px';
+ 
+          balloon.style.background = `radial-gradient(circle at 35% 30%, #fff8, ${randomColor})`;
+          balloon.style.left = `${randomLeft}%`;
+          balloon.style.width = randomSize + 'px';
+          balloon.style.height = (randomSize * 1.22) + 'px';
+          balloon.style.animationDelay = `${randomDelay}s`;
+          balloon.style.animationDuration = `${randomDuration}s`;
+          balloon.style.setProperty('--driftX', randomDrift);
+ 
+          container.appendChild(balloon);
+        }
       }
-    }
-
-    createBalloons();
+ 
+      createBalloons();
+ 
+      /* organic twinkle timing for fairy lights */
+      document.querySelectorAll('.fairy-bulb').forEach((b) => {
+        b.style.animationDelay = (Math.random() * 2).toFixed(2) + 's';
+        b.style.animationDuration = (1.3 + Math.random() * 1.2).toFixed(2) + 's';
+      });
+ 
+      /* staggered wave timing for banner flags */
+      document.querySelectorAll('.flag').forEach((f, i) => {
+        f.style.animationDelay = (i * 0.12).toFixed(2) + 's';
+      });
     });
   </script>
-</head>
 </head>
 <body>
  
@@ -777,11 +828,11 @@
     <button class="submit-fallback" id="submitFallback">Press enter not working? Tap here to submit</button>
   </div>
 </div>
-
+ 
 <!-- ============ STAGE CAKE (DECORATED BIRTHDAY ROOM) ============ -->
 <div id="stageCake">
   <div class="cake-room-glow"></div>
-  <!-- Glowing Fairy Lights String -->
+ 
   <div class="fairy-string">
     <div class="fairy-bulb"></div>
     <div class="fairy-bulb"></div>
@@ -792,8 +843,7 @@
     <div class="fairy-bulb"></div>
     <div class="fairy-bulb"></div>
   </div>
-
-  <!-- Hanging Party Banner -->
+ 
   <div class="banner-string">
     <div class="flag">H</div>
     <div class="flag">A</div>
@@ -806,51 +856,49 @@
     <div class="flag">A</div>
     <div class="flag">Y</div>
   </div>
-
-  <!-- Interactive Floating Balloons -->
+ 
   <div class="balloon-container">
-    <div class="balloon b-blue" onclick="popBalloon(this)"></div>
-    <div class="balloon b-pink" onclick="popBalloon(this)"></div>
-    <div class="balloon b-gold" onclick="popBalloon(this)"></div>
-    <div class="balloon b-silver" onclick="popBalloon(this)"></div>
+    <div class="balloon b-blue" onclick="popBalloon(this, event)"></div>
+    <div class="balloon b-pink" onclick="popBalloon(this, event)"></div>
+    <div class="balloon b-gold" onclick="popBalloon(this, event)"></div>
+    <div class="balloon b-silver" onclick="popBalloon(this, event)"></div>
   </div>
-
-  <!-- 3D Realistic Chocolate Cake Assembly -->
-  <div class="cake-stage-container">
-    <div class="room-candle-glow" id="candleGlow"></div>
-    
-    <div class="candles-group">
-      <div class="candle-item" id="candle1"><div class="flame-light" id="flame1"></div></div>
-      <div class="candle-item" id="candle2"><div class="flame-light" id="flame2"></div></div>
-      <div class="candle-item" id="candle3"><div class="flame-light" id="flame3"></div></div>
-    </div>
-
-    <!-- Top Tier -->
-    <div class="cake-tier tier-top" id="tierTop">
-      <div class="glossy-drip"></div>
-      <div class="cake-toppings">
-        <div class="cream-swirl"></div>
-        <div class="berry"></div>
-        <div class="cream-swirl"></div>
-        <div class="berry"></div>
-        <div class="cream-swirl"></div>
+ 
+  <div class="cake-stage-container" id="cakeStageContainer">
+    <div class="cake-rotator">
+      <div class="room-candle-glow" id="candleGlow"></div>
+ 
+      <div class="candles-group">
+        <div class="candle-item" id="candle1"><div class="flame-light" id="flame1"></div></div>
+        <div class="candle-item" id="candle2"><div class="flame-light" id="flame2"></div></div>
+        <div class="candle-item" id="candle3"><div class="flame-light" id="flame3"></div></div>
       </div>
+ 
+      <div class="cake-tier tier-top" id="tierTop">
+        <div class="glossy-drip"></div>
+        <div class="cake-toppings">
+          <div class="cream-swirl"></div>
+          <div class="berry"></div>
+          <div class="cream-swirl"></div>
+          <div class="berry"></div>
+          <div class="cream-swirl"></div>
+        </div>
+      </div>
+ 
+      <div class="cake-tier tier-middle" id="tierMiddle">
+        <div class="glossy-drip"></div>
+      </div>
+ 
+      <div class="cake-tier tier-bottom" id="tierBottom">
+        <div class="glossy-drip"></div>
+      </div>
+ 
+      <div class="cake-plate"></div>
     </div>
-
-    <!-- Middle Tier -->
-    <div class="cake-tier tier-middle" id="tierMiddle">
-      <div class="glossy-drip"></div>
-    </div>
-
-    <!-- Bottom Tier -->
-    <div class="cake-tier tier-bottom" id="tierBottom">
-      <div class="glossy-drip"></div>
-    </div>
-
-    <div class="cake-plate"></div>
   </div>
-
-  <!-- Room Controls -->
+ 
+  <div class="cake-hint">Tap the cake for a little sparkle ✨ · Tap balloons to pop them</div>
+ 
   <div class="cake-controls">
     <button class="cake-btn" id="lightToggleBtn">💡 Lights Off</button>
     <button class="cake-btn cake-btn-primary" id="blowCandleBtn">🌬️ Blow Candles Out</button>
@@ -945,12 +993,30 @@
  
 <script>
 /* Global Balloon Interactive Function */
-function popBalloon(el) {
+function popBalloon(el, evt) {
+  const rect = el.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+  const bg = getComputedStyle(el).backgroundImage || getComputedStyle(el).backgroundColor;
+  for (let i = 0; i < 14; i++) {
+    const p = document.createElement('div');
+    p.className = 'pop-particle';
+    const angle = Math.random() * Math.PI * 2;
+    const dist = 26 + Math.random() * 46;
+    p.style.left = cx + 'px';
+    p.style.top = cy + 'px';
+    p.style.background = ['#7FB0E8', '#FF8FD1', '#ffd700', '#EDEFF3'][i % 4];
+    p.style.boxShadow = '0 0 6px rgba(127,176,232,0.7)';
+    p.style.setProperty('--dx', (Math.cos(angle) * dist) + 'px');
+    p.style.setProperty('--dy', (Math.sin(angle) * dist) + 'px');
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 600);
+  }
   el.style.transform = 'scale(1.4)';
   el.style.opacity = '0';
-  setTimeout(() => el.remove(), 200);
+  setTimeout(() => el.remove(), 150);
 }
-
+ 
 (function () {
   const input = document.getElementById('waiverInput');
   const inputRow = document.getElementById('inputRow');
@@ -967,7 +1033,7 @@ function popBalloon(el) {
   const letterBody = document.getElementById('letterBody');
   const matrixLayer = document.getElementById('matrixLayer');
   const flashOverlay = document.getElementById('flashOverlay');
-
+ 
   /* Cake & Room elements */
   const tierBottom = document.getElementById('tierBottom');
   const tierMiddle = document.getElementById('tierMiddle');
@@ -977,6 +1043,7 @@ function popBalloon(el) {
   const candleGlow = document.getElementById('candleGlow');
   const lightToggleBtn = document.getElementById('lightToggleBtn');
   const blowCandleBtn = document.getElementById('blowCandleBtn');
+  const cakeStageContainer = document.getElementById('cakeStageContainer');
  
   const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
  
@@ -988,6 +1055,34 @@ function popBalloon(el) {
     dotCount = (dotCount + 1) % 4;
     dots.textContent = '.'.repeat(dotCount);
   }, 500);
+ 
+  /* ---- ambient falling light streaks, visible from the very first screen ---- */
+  function startMatrixRain() {
+    setInterval(() => {
+      const s = document.createElement('div');
+      s.className = 'stream';
+      s.style.left = (Math.random() * 100) + 'vw';
+      const duration = 3 + Math.random() * 2.5;
+      s.style.animationDuration = duration + 's';
+      s.style.opacity = (0.45 + Math.random() * 0.4).toFixed(2);
+      s.style.height = (60 + Math.random() * 55) + 'px';
+      matrixLayer.appendChild(s);
+      setTimeout(() => s.remove(), (duration + 0.5) * 1000);
+    }, 150);
+  }
+  startMatrixRain();
+ 
+  /* ---- build the chronograph's tick marks once ---- */
+  (function buildWatchTicks() {
+    const face = document.getElementById('watchFace');
+    if (!face) return;
+    for (let i = 0; i < 60; i++) {
+      const t = document.createElement('div');
+      t.className = 'watch-tick' + (i % 5 === 0 ? ' h' : '');
+      t.style.transform = `rotate(${i * 6}deg)`;
+      face.insertBefore(t, face.firstChild);
+    }
+  })();
  
   /* ---- subtle 3D parallax tilt on the waiver card ---- */
   stage1.addEventListener('mousemove', (e) => {
@@ -1010,8 +1105,7 @@ function popBalloon(el) {
     inputRow.classList.remove('bounce', 'reject');
     stage1.classList.remove('wild-shake');
   }
-
-  /* Listen for Enter key or click on input/submit button */
+ 
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') handleSubmit();
   });
@@ -1071,12 +1165,11 @@ function popBalloon(el) {
       startCakeAssembly();
     }, 1250);
   }
-
+ 
   /* ---- Cake Room Animations & Dropping Sequence ---- */
   function startCakeAssembly() {
     stageCake.classList.add('visible');
-
-    // Layer-by-layer drop sequence
+ 
     setTimeout(() => tierBottom.classList.add('dropped'), 200);
     setTimeout(() => tierMiddle.classList.add('dropped'), 650);
     setTimeout(() => tierTop.classList.add('dropped'), 1100);
@@ -1091,30 +1184,51 @@ function popBalloon(el) {
         launchConfetti();
       }, 600);
     }, 1500);
-
-    setupMicrophone();
   }
-
+ 
+  /* Tap the cake for a little sparkle burst */
+  cakeStageContainer.addEventListener('click', (e) => {
+    const cx = e.clientX, cy = e.clientY;
+    for (let i = 0; i < 12; i++) {
+      const p = document.createElement('div');
+      p.className = 'cake-sparkle';
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 30 + Math.random() * 46;
+      p.style.left = cx + 'px';
+      p.style.top = cy + 'px';
+      p.style.setProperty('--dx', (Math.cos(angle) * dist) + 'px');
+      p.style.setProperty('--dy', (Math.sin(angle) * dist) + 'px');
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 700);
+    }
+  });
+ 
   /* Room Lights Toggle */
   lightToggleBtn.addEventListener('click', () => {
     document.body.classList.toggle('lights-off');
     const isDark = document.body.classList.contains('lights-off');
     lightToggleBtn.textContent = isDark ? '💡 Lights On' : '💡 Lights Off';
   });
-
-  /* Candle Blowing Trigger */
+ 
   blowCandleBtn.addEventListener('click', blowOutCandles);
-
+ 
   function blowOutCandles() {
     if (candlesBlown) return;
     candlesBlown = true;
-
+ 
+    candles.forEach(c => {
+      const puff = document.createElement('div');
+      puff.className = 'smoke-puff';
+      c.appendChild(puff);
+      setTimeout(() => puff.remove(), 1500);
+    });
+ 
     flames.forEach(f => f.classList.remove('lit'));
     candleGlow.classList.remove('lit');
-
+ 
     launchConfetti();
     document.body.classList.remove('lights-off');
-
+ 
     setTimeout(() => {
       stageCake.style.opacity = '0';
       setTimeout(() => {
@@ -1127,51 +1241,44 @@ function popBalloon(el) {
       }, 800);
     }, 1200);
   }
-/* Microphone Detection for Blowing out Candles */
-function setupMicrophone() {
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
-
-  // Add an event listener to your interactive element/button (e.g., 'start-mic-btn' or your start button)
-  const micButton = document.getElementById('start-mic-btn');
-
-  if (!micButton) return;
-
-  micButton.addEventListener('click', () => {
+ 
+  /* Microphone Detection for Blowing out Candles — starts automatically,
+     the button above always works too as a fail-safe if mic access is denied. */
+  function setupMicrophone() {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
+ 
     navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
       const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-      // Mobile Safari requirement: resume AudioContext on tap
-      if (audioContext.state === 'suspended') {
-        audioContext.resume();
-      }
-
+      if (audioContext.state === 'suspended') audioContext.resume();
+ 
       const analyser = audioContext.createAnalyser();
       const microphone = audioContext.createMediaStreamSource(stream);
       microphone.connect(analyser);
       analyser.fftSize = 256;
       const bufferLength = analyser.frequencyBinCount;
       const dataArray = new Uint8Array(bufferLength);
-
+ 
       function checkBlow() {
-        if (candlesBlown) return;
+        if (candlesBlown) {
+          stream.getTracks().forEach(t => t.stop());
+          return;
+        }
         analyser.getByteFrequencyData(dataArray);
         let sum = 0;
-        for (let i = 0; i < bufferLength; i++) {
-          sum += dataArray[i];
-        }
-        let average = sum / bufferLength;
-        if (average > 48) { // Sound threshold for blow detection
+        for (let i = 0; i < bufferLength; i++) sum += dataArray[i];
+        const average = sum / bufferLength;
+        if (average > 48) {
           blowOutCandles();
+          stream.getTracks().forEach(t => t.stop());
         } else {
           requestAnimationFrame(checkBlow);
         }
       }
       checkBlow();
-    }).catch(err => {
+    }).catch(() => {
       // Microphone access denied or unsupported; manual button remains fully functional
     });
-  });
-}
+  }
  
   function animateBars() {
     document.querySelectorAll('.bar-fill').forEach(bar => {
@@ -1269,7 +1376,7 @@ Now go enjoy your day, birthday boy… you're officially another level hotter. �
     cursor.className = 'letter-cursor';
     letterBody.textContent = '';
     letterBody.appendChild(cursor);
-
+ 
     let charIdx = 0;
     const typeInterval = setInterval(() => {
       if (charIdx < chars.length) {
