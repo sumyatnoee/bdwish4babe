@@ -67,7 +67,7 @@
   #flashOverlay.pop { animation: flashPop 0.55s ease-out; }
   @keyframes flashPop { 0% { opacity: 0; } 18% { opacity: 1; } 100% { opacity: 0; } }
  
-  #stage1, #stageCake, #stage2, #confettiLayer { position: relative; z-index: 1; }
+  #stage1, #stageCake, #memoryReveal, #stage2, #confettiLayer { position: relative; z-index: 1; }
  
   /* =========================================================
      STAGE 1 — WAIVER CARD
@@ -597,6 +597,50 @@
   }
  
   /* =========================================================
+     MEMORY REVEAL — LOCKED PHOTO / SCAN SEQUENCE
+     ========================================================= */
+
+  #memoryReveal {
+    display: none;
+    width: 100%;
+    max-width: 760px;
+    min-height: 82vh;
+    margin: 0 auto;
+    padding: 26px 0;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  #memoryReveal.visible { display: flex; opacity: 1; transform: translateY(0); }
+  .memory-shell {
+    width: min(100%, 680px);
+    padding: 22px;
+    border: 1px solid rgba(127,176,232,0.35);
+    border-radius: 18px;
+    background: linear-gradient(145deg, rgba(23,25,31,0.97), rgba(8,10,15,0.98));
+    box-shadow: 0 24px 90px rgba(0,0,0,0.55), 0 0 42px rgba(62,111,168,0.12);
+  }
+  .memory-status { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px; color:var(--blue-bright); font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing:.08em; text-transform:uppercase; }
+  .memory-status span:first-child::before { content:""; display:inline-block; width:7px; height:7px; margin-right:8px; border-radius:50%; background:#7FB0E8; box-shadow:0 0 12px #7FB0E8; animation:pulse 1.5s ease-in-out infinite; }
+  .memory-photo-frame { position:relative; width:min(100%, 370px); height:min(54vh, 500px); min-height:300px; margin:0 auto; overflow:hidden; border:1px solid rgba(127,176,232,.35); border-radius:12px; background:#080a0e; box-shadow:0 12px 38px rgba(0,0,0,.55); }
+  .memory-photo { width:100%; height:100%; display:block; object-fit:cover; object-position:center 48%; filter:saturate(.72) contrast(1.08) brightness(.84); }
+  .memory-photo-frame::before { content:""; position:absolute; z-index:2; inset:0; pointer-events:none; background:repeating-linear-gradient(0deg,rgba(127,176,232,.06) 0,rgba(127,176,232,.06) 1px,transparent 1px,transparent 4px); mix-blend-mode:screen; }
+  .memory-photo-frame::after { content:""; position:absolute; z-index:3; left:0; right:0; top:-10%; height:3px; background:#a9d1ff; box-shadow:0 0 12px 4px rgba(127,176,232,.75),0 0 38px 12px rgba(62,111,168,.55); animation:memoryScan 3.1s ease-in-out infinite; }
+  @keyframes memoryScan { 0%{top:0;opacity:0} 10%{opacity:1} 88%{opacity:.9} 100%{top:100%;opacity:0} }
+  .memory-corner { position:absolute; z-index:4; width:22px; height:22px; border-color:#9fcaff; border-style:solid; opacity:.9; }
+  .memory-corner.tl {top:9px;left:9px;border-width:1px 0 0 1px}.memory-corner.tr {top:9px;right:9px;border-width:1px 1px 0 0}.memory-corner.bl {bottom:9px;left:9px;border-width:0 0 1px 1px}.memory-corner.br {bottom:9px;right:9px;border-width:0 1px 1px 0}
+  .memory-copy { text-align:center; }
+  .memory-copy h2 { margin:18px 0 7px; color:var(--ivory); font:600 clamp(21px,4vw,29px)/1.2 Georgia,'Times New Roman',serif; }
+  .memory-copy p { margin:0 auto 17px; max-width:480px; color:#c9cdd5; font-size:14px; line-height:1.65; }
+  .memory-unlock { border:1px solid rgba(127,176,232,.58); border-radius:10px; padding:12px 18px; color:#eef5ff; background:linear-gradient(135deg,rgba(62,111,168,.35),rgba(23,25,31,.8)); font:600 13px ui-monospace,SFMono-Regular,Menlo,monospace; cursor:pointer; box-shadow:0 0 22px rgba(62,111,168,.12); transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease; }
+  .memory-unlock:hover,.memory-unlock:focus-visible { transform:translateY(-2px); border-color:#a9d1ff; box-shadow:0 0 28px rgba(127,176,232,.25); outline:none; }
+  .memory-footnote { margin-top:12px; color:#7e8796; font:10px ui-monospace,SFMono-Regular,Menlo,monospace; text-align:center; letter-spacing:.04em; }
+  @media (max-width:600px) { .memory-shell{padding:15px}.memory-photo-frame{height:54vh;min-height:280px}.memory-status{font-size:10px} }
+  @media (prefers-reduced-motion:reduce) { .memory-photo-frame::after{animation:none;top:50%;opacity:.8} }
+
+  /* =========================================================
      STAGE 2 — DASHBOARD
      ========================================================= */
  
@@ -906,6 +950,23 @@
 </div>
  
 <!-- ============ STAGE 2 ============ -->
+<div id="memoryReveal" aria-live="polite">
+  <div class="memory-shell">
+    <div class="memory-status"><span>Memory file recovered</span><span>FILE_2510.MEM</span></div>
+    <div class="memory-photo-frame">
+      <img class="memory-photo" src="assets/birthday-memory.png" alt="A mirror selfie with a city skyline in the background">
+      <i class="memory-corner tl"></i><i class="memory-corner tr"></i><i class="memory-corner bl"></i><i class="memory-corner br"></i>
+    </div>
+    <div class="memory-copy">
+      <h2>Identity confirmed: my favorite person.</h2>
+      <p>One more little surprise before your birthday message, birthday boy.</p>
+      <button class="memory-unlock" id="memoryUnlockBtn">&gt; DECRYPT THE SURPRISE</button>
+      <div class="memory-footnote">BIRTHDAY MEMORY · ACCESS GRANTED BY YOUR GIRLFRIEND ♥</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ STAGE 2 ============ -->
 <div id="stage2">
  
   <div class="banner">
@@ -1025,6 +1086,8 @@ function popBalloon(el, evt) {
   const stage1 = document.getElementById('stage1');
   const cardTilt = document.getElementById('cardTilt');
   const stageCake = document.getElementById('stageCake');
+  const memoryReveal = document.getElementById('memoryReveal');
+  const memoryUnlockBtn = document.getElementById('memoryUnlockBtn');
   const stage2 = document.getElementById('stage2');
   const submitFallback = document.getElementById('submitFallback');
   const dots = document.getElementById('dots');
@@ -1211,6 +1274,19 @@ function popBalloon(el, evt) {
   });
  
   blowCandleBtn.addEventListener('click', blowOutCandles);
+  memoryUnlockBtn.addEventListener('click', revealBirthdayMessage);
+
+  function revealBirthdayMessage() {
+    memoryReveal.classList.remove('visible');
+    setTimeout(() => {
+      memoryReveal.style.display = 'none';
+      stage2.classList.add('visible');
+      animateBars();
+      launchConfetti();
+      runTerminal();
+      typewriterLetter();
+    }, 500);
+  }
  
   function blowOutCandles() {
     if (candlesBlown) return;
@@ -1233,11 +1309,9 @@ function popBalloon(el, evt) {
       stageCake.style.opacity = '0';
       setTimeout(() => {
         stageCake.style.display = 'none';
-        stage2.classList.add('visible');
-        animateBars();
+        memoryReveal.style.display = 'flex';
+        requestAnimationFrame(() => memoryReveal.classList.add('visible'));
         launchConfetti();
-        runTerminal();
-        typewriterLetter();
       }, 800);
     }, 1200);
   }
